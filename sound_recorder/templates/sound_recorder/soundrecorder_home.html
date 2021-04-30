@@ -1,0 +1,14 @@
+{% extends "menu.html" %}
+{% load static %}
+{% block title %}Sound Recorder Dashboard{% endblock %}
+{% block content %}
+     <!-- Content -->
+    <div class="container-fluid">
+      <h1>Reproductor de audio</h1>
+      <h2>Audio almacenado</h2>
+      <canvas id="audio_data"></canvas>
+    </div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/sound_recorder.js' %}"></script>
+{% endblock %}

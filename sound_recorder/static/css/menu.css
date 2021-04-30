@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500');
+
+body {
+  overflow-x: hidden;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  margin-top:-21px;
+  background-color:#e6e7e8;
+}
+
+/* Toggle Styles */
+
+#viewport {
+  padding-left: 250px;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+#content {
+  width: 100%;
+}
+
+/* Sidebar Styles */
+
+#sidebar {
+  z-index: 1000;
+  position: fixed;
+  left: 250px;
+  width: 250px;
+  height: 100%;
+  margin-left: -250px;
+  overflow-y: auto;
+  background: #49515c;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+#sidebar header {
+  background-color: #49515c;
+  font-size: 20px;
+  line-height: 52px;
+  text-align: center;
+}
+
+#sidebar header a {
+  color: #fff;
+  display: block;
+  text-decoration: none;
+}
+
+#sidebar header a:hover {
+  color: #fff;
+}
+
+
+#sidebar .nav li{
+  background: none;
+  border-bottom: 1px solid #49515c;
+  color: #dedede;
+  font-size: 14px;
+}
+
+#sidebar .nav li:hover{
+  background: none;
+  color: #dedede;
+}
+
+#sidebar .nav li div{
+  padding: 24px 24px;
+  margin-right: 32px;
+}
+
+.container-fluid{
+  margin-left: 20px;
+}
+
+h1{
+   padding-top:20px;
+}
+
+canvas {
+  background-color: #f2f2f2;
+  width:1500px !important;
+}
