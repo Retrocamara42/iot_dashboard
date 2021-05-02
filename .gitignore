@@ -3,3 +3,4 @@ env_iot-dashboard/*/*
 staticfiles/*
 */__pycache__/*
 */__pycache__/*/*
+*/*/__pycache__/*
