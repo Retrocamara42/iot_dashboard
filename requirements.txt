@@ -1,7 +1,7 @@
-Django==3.2
-mysqlclient==1.4.6
+Django
+mysqlclient
 djangorestframework
 gunicorn
-pytz==2021.1
-whitenoise==5.2.0
+pytz
+whitenoise
 
