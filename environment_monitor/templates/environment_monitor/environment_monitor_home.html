@@ -1,0 +1,16 @@
+{% extends "menu.html" %}
+{% load static %}
+{% block title %}Dashboard Monitor de Ambiente{% endblock %}
+{% block content %}
+     <!-- Content -->
+    <div class="container-fluid">
+      <h1>Monitor de ambiente</h1>
+      <h2>Temperatura</h2>
+      <canvas id="temperature"></canvas>
+      <canvas id="humidity"></canvas>
+    </div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/measurement_chart.js' %}"></script>
+<script src="{% static 'environment_monitor/js/environment_monitor.js' %}"></script>
+{% endblock %}

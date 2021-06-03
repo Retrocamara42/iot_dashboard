@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('sound_recorder/home/', sound_recorder.SoundRecorderHomeView.as_view()),
     path('sound_recorder/receive_sound/', sound_recorder.ReceiveSoundApi.as_view()),
-    path('sound_recorder/get_data_sound/', sound_recorder.audio_data, name="get_data_sound"),
+    path('sound_recorder/get_audio_data/', sound_recorder.get_audio_data, name="get_audio_data"),
 ]

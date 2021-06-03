@@ -22,7 +22,7 @@ class SoundRecorderHomeView(TemplateView):
         return context
 
 
-def audio_data(request):
+def get_audio_data(request):
     dataset = SoundRecorded.objects.all()
     json_response = serializers.serialize('json', dataset)
     return JsonResponse(json_response, safe=False)
@@ -38,9 +38,9 @@ class ReceiveSoundApi(APIView):
         try:
             amplitude=float(amplitude)
         except Exception as e:
-            raise ValidationError("Value must be valid float number")
+            raise ValidationError("El valor debe ser un número flotante válido")
 
         timezone.activate(pytz.timezone('America/Lima'))
         SoundRecorded.objects.create(amplitude=amplitude)
         timezone.deactivate()
-        return JsonResponse({"message": "Amplitude value added succesfully"})
+        return JsonResponse({"message": "Valor de amplitud agregado exitosamente"})
