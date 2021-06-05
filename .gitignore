@@ -4,6 +4,7 @@ staticfiles/*
 */__pycache__/*
 */__pycache__/*/*
 */*/__pycache__/*
+environment.sh
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
