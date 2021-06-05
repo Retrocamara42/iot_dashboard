@@ -6,8 +6,9 @@ from .models import *
 import pytz
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.core import serializers
+from .serializers import TemperatureSerializer,HumiditySerializer
 from django.http import JsonResponse
+from rest_framework import status
 
 # Create your views here.
 """
@@ -39,16 +40,17 @@ TemperatureApi: API to receive and save temperature values
 class TemperatureApi(APIView):
 
     def post(self, request):
-        temperature=request.POST["temperature"]
-        try:
-            temperature=float(temperature)
-        except Exception as e:
-            raise ValidationError("La temperatura debe ser un valor válido flotante")
+        serializer = TemperatureSerializer(data=request.data)
+        if(serializer.is_valid()):
+            temperature=serializer.data["temperature"]
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        #raise ValidationError("La temperatura debe ser un valor válido flotante")
 
         timezone.activate(pytz.timezone('America/Lima'))
         Temperature.objects.create(temperature=temperature)
         timezone.deactivate()
-        return JsonResponse({"message": "Valor de temperatura agregado exitosamente"})
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 """
@@ -57,13 +59,13 @@ HumidityApi: API to receive and save humidity values
 class HumidityApi(APIView):
 
     def post(self, request):
-        humidity=request.POST["humidity"]
-        try:
-            humidity=float(humidity)
-        except Exception as e:
-            raise ValidationError("La humedad debe ser un valor válido flotante")
+        serializer = HumiditySerializer(data=request.data)
+        if(serializer.is_valid()):
+            humidity=serializer.data["humidity"]
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         timezone.activate(pytz.timezone('America/Lima'))
         Humidity.objects.create(humidity=humidity)
         timezone.deactivate()
-        return JsonResponse({"message": "Valor de humedad agregado exitosamente"})
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
