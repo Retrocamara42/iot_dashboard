@@ -4,4 +4,3 @@ djangorestframework
 gunicorn
 pytz
 whitenoise
-

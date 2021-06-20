@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from .serializers import TemperatureSerializer,HumiditySerializer
 from django.http import JsonResponse
 from rest_framework import status
+from django.core import serializers
 
 # Create your views here.
 """
