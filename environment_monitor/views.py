@@ -65,7 +65,6 @@ class HumidityApi(APIView):
         if(serializer.is_valid()):
             humidity=serializer.data["humidity"]
         else:
-            print(serializer.data["humidity"])
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         timezone.activate(pytz.timezone('America/Lima'))
