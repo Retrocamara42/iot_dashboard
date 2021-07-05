@@ -4,11 +4,13 @@ from django.utils import timezone
 """
 Temperature:
     - id: Int. Id
+    - device_name: String. Name of the device
     - timestamp: Datetime. Datetime when it was registered
     - temperature: Decimal. Temperature value
 """
 class Temperature(models.Model):
     id=models.BigAutoField(primary_key=True)
+    device_name=models.CharField(max_length=10)
     timestamp=models.DateTimeField(default=timezone.now)
     temperature=models.DecimalField(max_digits=5,decimal_places=2)
 
@@ -19,11 +21,13 @@ class Temperature(models.Model):
 """
 Humidity:
     - id: Int. Id
+    - device_name: String. Name of the device
     - timestamp: Datetime. Datetime when it was registered
     - humidity: Decimal. Humidity value
 """
 class Humidity(models.Model):
     id=models.BigAutoField(primary_key=True)
+    device_name=models.CharField(max_length=10)
     timestamp=models.DateTimeField(default=timezone.now)
     humidity=models.DecimalField(max_digits=5,decimal_places=2)
 

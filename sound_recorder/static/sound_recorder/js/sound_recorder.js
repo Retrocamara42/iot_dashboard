@@ -5,6 +5,6 @@ $(document).ready(function() {
         async: true,
         success: function (data) {
            drawChart(data, "#audio_data", 'amplitude', 'Amplitude',
-                    'rgb(192, 10, 10)', 'rgb(192, 10, 10)');
+                    'rgb(192, 10, 10)', 'rgb(192, 10, 10)', 'dB');
         }
     }).responseText});

@@ -5,7 +5,7 @@ $(document).ready(function() {
         async: true,
         success: function (data) {
            drawChart(data, '#temperature', 'temperature', 'temperature',
-                    'rgb(192, 10, 10)', 'rgb(192, 10, 10)');
+                    'rgb(192, 10, 10)', 'rgb(192, 10, 10)', '°C');
         }
     }).responseText});
 
@@ -17,6 +17,6 @@ $(document).ready(function() {
             async: true,
             success: function (data) {
                drawChart(data, '#humidity', 'humidity', 'humidity',
-                        'rgb(192, 10, 10)', 'rgb(192, 10, 10)');
+                        'rgb(192, 10, 10)', 'rgb(192, 10, 10)', '%');
             }
         }).responseText});

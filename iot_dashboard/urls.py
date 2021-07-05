@@ -13,9 +13,7 @@ urlpatterns = [
     path('sound_recorder/get_audio_data/', sound_recorder.get_audio_data, name="get_audio_data"),
     #### Environment monitor - temperature
     path('environment_monitor/home/', env_monitor.EnvironmentMonitorHomeView.as_view()),
-    path('environment_monitor/receive_temperature/', env_monitor.TemperatureApi.as_view()),
     path('environment_monitor/get_temperature_data/', env_monitor.get_temperature_data, name="get_temperature_data"),
     #### Environment monitor - humidity
-    path('environment_monitor/receive_humidity/', env_monitor.HumidityApi.as_view()),
     path('environment_monitor/get_humidity_data/', env_monitor.get_humidity_data, name="get_humidity_data"),
 ]

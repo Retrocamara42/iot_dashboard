@@ -37,7 +37,7 @@ def get_humidity_data(request):
 
 """
 TemperatureApi: API to receive and save temperature values
-"""
+
 class TemperatureApi(APIView):
 
     def post(self, request):
@@ -53,21 +53,4 @@ class TemperatureApi(APIView):
         Temperature.objects.create(temperature=temperature)
         timezone.deactivate()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
 """
-HumidityApi: API to receive and save humidity values
-"""
-class HumidityApi(APIView):
-    def post(self, request):
-        print(request.data)
-        serializer = HumiditySerializer(data=request.data)
-        if(serializer.is_valid()):
-            humidity=serializer.data["humidity"]
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        timezone.activate(pytz.timezone('America/Lima'))
-        Humidity.objects.create(humidity=humidity)
-        timezone.deactivate()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)

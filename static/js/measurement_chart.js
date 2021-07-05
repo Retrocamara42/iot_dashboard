@@ -1,3 +1,4 @@
+
 function jsChartReformatMeasurementJson(json_data, measurement_label, label_name,
          border_color, background_color){
    new_format_data={}
@@ -19,7 +20,7 @@ function jsChartReformatMeasurementJson(json_data, measurement_label, label_name
 }
 
 function drawChart(data, chart_id, measurement_label, label_name,
-         border_color, background_color){
+         border_color, background_color, units){
     var ctx = $(chart_id);
     data=jsChartReformatMeasurementJson(data, measurement_label, label_name,
              border_color, background_color);
@@ -29,13 +30,26 @@ function drawChart(data, chart_id, measurement_label, label_name,
        options: {
           responsive: true,
           maintainAspectRatio: true,
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero:true
-                  }
-              }]
-          }
+          interaction: {
+            intersect: false
+          },
+          tooltips: {
+             position : 'nearest',
+             enabled: true,
+             mode: 'point',
+             callbacks: {
+                 label: function(tooltipItems, data) {
+                     return tooltipItems.yLabel + ' ' + units;
+                 }
+             }
+          },
+          xAxes: [{
+             type: 'time',
+             ticks: {
+                 autoSkip: true,
+                 maxTicksLimit: 5
+             }
+         }],
        }
     })
 }
