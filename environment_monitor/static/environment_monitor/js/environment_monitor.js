@@ -1,22 +1,26 @@
 $(document).ready(function() {
+    puntos_temp=$('#puntos_temp');
     data = $.ajax({
         url: "/environment_monitor/get_temperature_data/",
         dataType:"json",
         async: true,
+        data:"{puntos_temp:"+puntos_temp+"}",
         success: function (data) {
            drawChart(data, '#temperature', 'temperature', 'temperature',
-                    'rgb(192, 10, 10)', 'rgb(192, 10, 10)', '°C');
+                    '#456990', '#456990', '°C');
         }
     }).responseText});
 
 
-    $(document).ready(function() {
-        data = $.ajax({
-            url: "/environment_monitor/get_humidity_data/",
-            dataType:"json",
-            async: true,
-            success: function (data) {
-               drawChart(data, '#humidity', 'humidity', 'humidity',
-                        'rgb(192, 10, 10)', 'rgb(192, 10, 10)', '%');
-            }
-        }).responseText});
+$(document).ready(function() {
+  puntos_humid=$('#puntos_humid');
+  data = $.ajax({
+      url: "/environment_monitor/get_humidity_data/",
+      dataType:"json",
+      async: true,
+      data:"{puntos_humid:"+puntos_humid+"}",
+      success: function (data) {
+         drawChart(data, '#humidity', 'humidity', 'humidity',
+                  '#F45B69', '#F45B69', '%');
+      }
+  }).responseText});

@@ -36,20 +36,36 @@ function drawChart(data, chart_id, measurement_label, label_name,
           tooltips: {
              position : 'nearest',
              enabled: true,
-             mode: 'point',
+             mode: 'x',
              callbacks: {
                  label: function(tooltipItems, data) {
                      return tooltipItems.yLabel + ' ' + units;
                  }
              }
           },
-          xAxes: [{
-             type: 'time',
-             ticks: {
-                 autoSkip: true,
-                 maxTicksLimit: 5
-             }
-         }],
+          scales: {
+            x: {
+              type: 'time',
+              time: {
+                  parser: 'Y-M-D hh:mm:ss',
+                  unit:'minute',
+                  displayFormats: {
+                     minute: 'Y-M-D hh:mm:ss'
+                  }
+              },
+              ticks: {
+                color: '#49515c',
+                autoSkip: true,
+                maxTicksLimit: 15
+              }
+            }
+         },
+         plugins: {
+            legend: {
+                display: true,
+                position:'bottom'
+            }
+         }
        }
     })
 }

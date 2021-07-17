@@ -4,3 +4,4 @@ djangorestframework
 gunicorn
 pytz
 whitenoise
+awsiotsdk

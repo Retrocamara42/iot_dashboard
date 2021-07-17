@@ -1,21 +1,28 @@
+# Django imports
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-from .models import *
-import pytz
+from django.http import JsonResponse
+from django.core import serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import TemperatureSerializer,HumiditySerializer
-from django.http import JsonResponse
 from rest_framework import status
-from django.core import serializers
+# Python imports
+import pytz
+# Aws imports
+from awscrt import io, mqtt, auth, http
+from awsiot import mqtt_connection_builder
+# Project imports
+from .models import *
+#from .serializers import TemperatureSerializer,HumiditySerializer
 
-# Create your views here.
+# VIEWS
+######################################################
 """
-EnvironmentMonitorHomeView: Main view of app environemnt monitor
+EnvironmentMonitorDashboardView: Dashboard view of app environemnt monitor
 """
-class EnvironmentMonitorHomeView(TemplateView):
+class EnvironmentMonitorDashboardView(TemplateView):
     template_name = "environment_monitor/environment_monitor_home.html"
 
     def get_context_data(self, **kwargs):
@@ -23,18 +30,95 @@ class EnvironmentMonitorHomeView(TemplateView):
         return context
 
 
+"""
+EnvironmentMonitorControlView: Control view of app environemnt monitor
+"""
+class EnvironmentMonitorControlView(TemplateView):
+    template_name = "environment_monitor/environment_monitor_control.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+# GET DATA FUNCTIONS
+######################################################
+"""
+get_temperature_data: Gets temperature data
+"""
 def get_temperature_data(request):
-    dataset = Temperature.objects.all()
+    max_points=request.POST.get("puntos_temp", 0)
+    dataset = Temperature.objects.all()[-max_points:]
     json_response = serializers.serialize('json', dataset)
     return JsonResponse(json_response, safe=False)
 
 
+"""
+get_humidity_data: Gets humidity data
+"""
 def get_humidity_data(request):
-    dataset = Humidity.objects.all()
+    max_points=request.POST.get("puntos_humid", 0)
+    dataset = Humidity.objects.all()[-max_points:]
     json_response = serializers.serialize('json', dataset)
     return JsonResponse(json_response, safe=False)
 
 
+# COMMAND FUNCTIONS
+######################################################
+"""
+publish_message: Publish message in json format to mqtt's topic
+"""
+def publish_message(topic, message_json):
+    try:
+        mqtt_connection = mqtt_connection_builder.mtls_from_path(
+                endpoint=os.getenv('MQTT_ENDPOINT'),
+                port=os.getenv('MQTT_PORT'),
+                cert_filepath="./certs/iot_multisensor_certificate.pem.crt",
+                pri_key_filepath="./certs/iot_multisensor_private.pem.key",
+                ca_filepath="./certs/AmazonRootCA1.pem",
+                clean_session=False,
+                keep_alive_secs=6,)
+        connect_future = mqtt_connection.connect()
+        connect_future.result()
+
+        mqtt_connection.publish(
+            topic=topic,
+            payload=message_json,
+            qos=mqtt.QoS.AT_LEAST_ONCE)
+        time.sleep(1)
+
+        disconnect_future = mqtt_connection.disconnect()
+        disconnect_future.result()
+        return_message="Mensaje enviado al dispositivo exitosamente"
+    except Exception as e:
+        return_message="Error al publicar mensaje "+message_json+" al topico "+topic+": "+str(e)
+        print(return_message)
+        try:
+            disconnect_future = mqtt_connection.disconnect()
+            disconnect_future.result()
+        except Exception as e:
+            return_message="Error al desconectar de mqtt: "+str(e)
+            print(return_message)
+
+    return return_message
+
+
+
+"""
+query_device: Query command that tells device to send data
+"""
+def query_device(request):
+    topic="remote_action"
+    message = "q:1"
+    message_json = json.dumps(message)
+    print("Publishing message to topic '{}': {}".format(topic, message))    publish_message(topic, message_json)
+
+    return JsonResponse({'response': 'Ok'})
+
+
+
+# NOT USED
+######################################################
 """
 TemperatureApi: API to receive and save temperature values
 

@@ -4,14 +4,13 @@ body {
   overflow-x: hidden;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
-  margin-top:-21px;
   background-color:#e6e7e8;
 }
 
-/* Toggle Styles */
 
+/*** Toggle Styles ***/
 #viewport {
-  padding-left: 250px;
+  padding-left: 300px;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -22,28 +21,54 @@ body {
   width: 100%;
 }
 
-/* Sidebar Styles */
+h1{
+   padding-top:20px;
+   margin-bottom:20px;
+}
 
+h2{
+   margin-top:20px;
+   margin-bottom:20px;
+}
+
+canvas {
+  background-color: #f2f2f2;
+  border-radius:15px;
+  padding:25px;
+  margin-bottom:25px;
+  margin-right:25px;
+}
+
+
+/*** Sidebar Styles ***/
 #sidebar {
+  text-align:left;
   z-index: 1000;
   position: fixed;
-  left: 250px;
-  width: 250px;
+  left: 300px;
+  width: 300px;
   height: 100%;
-  margin-left: -250px;
+  margin-left: -300px;
   overflow-y: auto;
-  background: #49515c;
+  background: #62476b;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
 
+.fas{
+  color: #fff;
+  margin-right:25px;
+}
+
+/* Header */
 #sidebar header {
-  background-color: #49515c;
-  font-size: 20px;
+  font-size: 28px;
   line-height: 52px;
-  text-align: center;
+  text-align: left;
+  padding-top:10px;
+  padding-left:24px;
 }
 
 #sidebar header a {
@@ -57,33 +82,44 @@ body {
 }
 
 
-#sidebar .nav li{
-  background: none;
-  border-bottom: 1px solid #49515c;
+/* First nav */
+#sidebar .nav .nav-item{
+  /*border-bottom: 1px solid #664b73;*/
   color: #dedede;
-  font-size: 14px;
+  font-size: 18px;
+  width:100%;
+  padding: 14px 24px;
 }
 
-#sidebar .nav li:hover{
-  background: none;
-  color: #dedede;
-}
-
-#sidebar .nav li div{
-  padding: 24px 24px;
-  margin-right: 32px;
+#sidebar .nav .nav-item div{
   cursor: pointer;
+  margin-bottom: 14px;
+}
+
+#sidebar .nav .nav-item div:hover{
+  color: #F4D06F;
+  width:100%;
+}
+
+.sub-nav{
+   list-style-type:none;
+   width:100%;
+}
+
+.sub-nav .nav-sub-item{
+  border-bottom: 1px solid #dedede;
+  color: #dedede;
+  font-size: 16px;
+  width:100%;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.sub-nav .nav-sub-item:hover{
+  color: #F4D06F;
+  width:100%;
 }
 
 .container-fluid{
   margin-left: 20px;
-}
-
-h1{
-   padding-top:20px;
-}
-
-canvas {
-  background-color: #f2f2f2;
-  width:1500px !important;
 }
