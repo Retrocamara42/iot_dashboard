@@ -10,6 +10,10 @@ from rest_framework.response import Response
 from rest_framework import status
 # Python imports
 import pytz
+import json
+import os
+from uuid import uuid4
+import time
 # Aws imports
 from awscrt import io, mqtt, auth, http
 from awsiot import mqtt_connection_builder
@@ -48,7 +52,9 @@ get_temperature_data: Gets temperature data
 """
 def get_temperature_data(request):
     max_points=request.POST.get("puntos_temp", 0)
-    dataset = Temperature.objects.all()[-max_points:]
+    if(max_points!=0):
+        max_points=int(max_points)
+    dataset = Temperature.objects.all().order_by('-id')[:max_points]
     json_response = serializers.serialize('json', dataset)
     return JsonResponse(json_response, safe=False)
 
@@ -58,7 +64,9 @@ get_humidity_data: Gets humidity data
 """
 def get_humidity_data(request):
     max_points=request.POST.get("puntos_humid", 0)
-    dataset = Humidity.objects.all()[-max_points:]
+    if(max_points!=0):
+        max_points=int(max_points)
+    dataset = Humidity.objects.all().order_by('-id')[:max_points]
     json_response = serializers.serialize('json', dataset)
     return JsonResponse(json_response, safe=False)
 
@@ -70,13 +78,18 @@ publish_message: Publish message in json format to mqtt's topic
 """
 def publish_message(topic, message_json):
     try:
+        event_loop_group = io.EventLoopGroup(1)
+        host_resolver = io.DefaultHostResolver(event_loop_group)
+        client_bootstrap = io.ClientBootstrap(event_loop_group, host_resolver)
         mqtt_connection = mqtt_connection_builder.mtls_from_path(
                 endpoint=os.getenv('MQTT_ENDPOINT'),
-                port=os.getenv('MQTT_PORT'),
+                port=int(os.getenv('MQTT_PORT')),
                 cert_filepath="./certs/iot_multisensor_certificate.pem.crt",
                 pri_key_filepath="./certs/iot_multisensor_private.pem.key",
                 ca_filepath="./certs/AmazonRootCA1.pem",
+                client_bootstrap=client_bootstrap,
                 clean_session=False,
+                client_id="iot-" + str(uuid4()),
                 keep_alive_secs=6,)
         connect_future = mqtt_connection.connect()
         connect_future.result()
@@ -109,11 +122,12 @@ query_device: Query command that tells device to send data
 """
 def query_device(request):
     topic="remote_action"
-    message = "q:1"
+    message = {"q":1}
     message_json = json.dumps(message)
-    print("Publishing message to topic '{}': {}".format(topic, message))    publish_message(topic, message_json)
+    print("Publishing message to topic '{}': {}".format(topic, message))
+    return_message=publish_message(topic, message_json)
 
-    return JsonResponse({'response': 'Ok'})
+    return JsonResponse({'response': return_message})
 
 
 

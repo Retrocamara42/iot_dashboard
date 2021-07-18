@@ -1,26 +1,38 @@
-$(document).ready(function() {
-    puntos_temp=$('#puntos_temp');
+$.ajaxSetup({
+  headers: { "X-CSRFToken": Cookies.get('csrftoken') }
+});
+
+function getTemperatureDataByPoints(){
+    puntos_temp=$('#puntos_temp').val();
     data = $.ajax({
+        type:"POST",
         url: "/environment_monitor/get_temperature_data/",
         dataType:"json",
         async: true,
-        data:"{puntos_temp:"+puntos_temp+"}",
+        data:{"puntos_temp":puntos_temp},
         success: function (data) {
            drawChart(data, '#temperature', 'temperature', 'temperature',
                     '#456990', '#456990', '°C');
         }
-    }).responseText});
+    }).responseText
+}
 
 
-$(document).ready(function() {
-  puntos_humid=$('#puntos_humid');
+function getHumidityDataByPoints(){
+  puntos_humid=$('#puntos_humid').val();
   data = $.ajax({
+      type:"POST",
       url: "/environment_monitor/get_humidity_data/",
       dataType:"json",
       async: true,
-      data:"{puntos_humid:"+puntos_humid+"}",
+      data:{"puntos_humid":puntos_humid},
       success: function (data) {
          drawChart(data, '#humidity', 'humidity', 'humidity',
-                  '#F45B69', '#F45B69', '%');
+                  '#2e7d32', '#2e7d32', '%');
       }
-  }).responseText});
+  }).responseText
+}
+
+
+$(document).ready(getTemperatureDataByPoints);
+$(document).ready(getHumidityDataByPoints);

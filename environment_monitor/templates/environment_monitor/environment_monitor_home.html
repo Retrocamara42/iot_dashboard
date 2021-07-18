@@ -5,13 +5,17 @@
      <!-- Content -->
     <div class="container-fluid">
       <h1>Dashboard monitor de ambiente</h1>
+      <!-- Temperature -->
       <h2>Temperatura</h2>
       <label>Mostrar <input id="puntos_temp" type="number" value="20"
          max="99" min="0"/> puntos</label>
+      <button class="small-button" onclick="getTemperatureDataByPoints()">Actualizar</button>
       <canvas id="temperature"></canvas>
+      <!-- Humidity -->
       <h2>Humedad</h2>
       <label>Mostrar <input id="puntos_humid" type="number" value="20"
          max="99" min="0"/> puntos</label>
+      <button class="small-button" onclick="getHumidityDataByPoints()">Actualizar</button>
       <canvas id="humidity"></canvas>
     </div>
 {% endblock %}
