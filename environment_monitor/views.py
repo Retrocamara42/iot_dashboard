@@ -51,9 +51,13 @@ class EnvironmentMonitorControlView(TemplateView):
 get_temperature_data: Gets temperature data
 """
 def get_temperature_data(request):
-    max_points=request.POST.get("puntos_temp", 0)
-    if(max_points!=0):
-        max_points=int(max_points)
+    try:
+        max_points=request.POST.get("puntos_temp", 0)
+        if(max_points!=0):
+            max_points=int(max_points)
+    except Exception as e:
+        print("Error while getting value puntos_temp: "+str(e))
+        max_points=0
     dataset = Temperature.objects.all().order_by('-id')[:max_points]
     json_response = serializers.serialize('json', dataset)
     return JsonResponse(json_response, safe=False)
@@ -63,12 +67,26 @@ def get_temperature_data(request):
 get_humidity_data: Gets humidity data
 """
 def get_humidity_data(request):
-    max_points=request.POST.get("puntos_humid", 0)
-    if(max_points!=0):
-        max_points=int(max_points)
+    try:
+        max_points=request.POST.get("puntos_humid", 0)
+        if(max_points!=0):
+            max_points=int(max_points)
+    except Exception as e:
+        print("Error while getting value puntos_humid: "+str(e))
+        max_points=0
     dataset = Humidity.objects.all().order_by('-id')[:max_points]
     json_response = serializers.serialize('json', dataset)
     return JsonResponse(json_response, safe=False)
+
+
+"""
+get_device_data: Gets device data
+"""
+def get_device_data(request):
+    dataset = [Device.objects.get(device_name="iot_ms")]
+    json_response = serializers.serialize('json', dataset)
+    return JsonResponse(json_response, safe=False)
+
 
 
 # COMMAND FUNCTIONS
@@ -123,6 +141,26 @@ query_device: Query command that tells device to send data
 def query_device(request):
     topic="remote_action"
     message = {"q":1}
+    message_json = json.dumps(message)
+    print("Publishing message to topic '{}': {}".format(topic, message))
+    return_message=publish_message(topic, message_json)
+
+    return JsonResponse({'response': return_message})
+
+
+
+"""
+set_sent_frequency: Send new sent frequency value for iot device
+"""
+def set_sent_frequency(request):
+    topic="remote_action"
+    try:
+        freq=int(request.POST.get("freq", 30))
+    except Exception as e:
+        return JsonResponse({'response': "Error: Value can't be parsed as int"})
+    if(freq<0 or freq>999):
+        return JsonResponse({'response': 'Error: Value of sent frequency must be greater than 0 and less than 999'})
+    message = {"f":freq}
     message_json = json.dumps(message)
     print("Publishing message to topic '{}': {}".format(topic, message))
     return_message=publish_message(topic, message_json)

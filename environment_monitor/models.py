@@ -33,3 +33,18 @@ class Humidity(models.Model):
 
     class Meta:
         db_table = 'humidity'
+
+
+"""
+Device:
+    - id: Int. Id
+    - device_name: String. Name of the device
+    - sent_frequency: Int. Frequency in minutes to send messages
+"""
+class Device(models.Model):
+    id=models.BigAutoField(primary_key=True)
+    device_name=models.CharField(max_length=10)
+    sent_frequency=models.IntegerField()
+
+    class Meta:
+        db_table = 'device'

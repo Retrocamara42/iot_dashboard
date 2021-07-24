@@ -68,4 +68,5 @@ function drawChart(data, chart_id, measurement_label, label_name,
          }
        }
     })
+    return newChart;
 }

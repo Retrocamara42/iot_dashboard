@@ -5,8 +5,15 @@
      <!-- Content -->
     <div class="container-fluid">
       <h1>Control monitor de ambiente</h1>
-      <h2>Consultar dispositivo</h2>
-      <button id="btn_query">Consultar</button>
+      <div class="container-command">
+         <h2>Consultar dispositivo</h2>
+         <button id="btn_query">Consultar</button>
+      </div>
+      <div class="container-command">
+         <h2>Cambiar frecuencia de envío</h2>
+         <input type="number" id="freq_env" name="freq_env"/> minutos
+         <button id="btn_freq">Cambiar frecuencia</button>
+      </div>
     </div>
 {% endblock %}
 {% block extra_js %}
