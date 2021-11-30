@@ -1,43 +1,37 @@
-$.ajaxSetup({
-  headers: { "X-CSRFToken": Cookies.get('csrftoken') }
+iotMsSocket.onmessage = function(e) {
+   const data = JSON.parse(e.data);
+   console.log(data)
+   message=JSON.parse(data.message)[0]
+   // Commands
+   if(message.hasOwnProperty("command_response")){
+      if(message["command_response"].indexOf("Error")!=-1){
+         show_notification("failure", message["command_response"]);
+      }
+      else{
+         show_notification("success", message["command_response"]);
+      }
+   }
+};
+
+/****** Command functions *****/
+$("#btn_query").click(function() {
+   iotMsSocket.send(JSON.stringify({
+       'message': {
+           'command':'query_device'
+        }
+   }));
 });
 
 
-/***************** Device query ************************/
-$("#btn_query").click(function() {
-  data = $.ajax({
-      type:"POST",
-      url: "/environment_monitor/query_device/",
-      dataType:"json",
-      async: true,
-      success: function(data) {
-         if(data["response"].indexOf("Error")!=-1)
-            show_notification("failure", data["response"]);
-         else
-            show_notification("success", data["response"]);
-      }
-  }).responseText});
-
-
-
-/***************** Change sent frequency *******************/
 $("#btn_freq").click(function() {
    frequency=$("#freq_env").val();
-   data = $.ajax({
-        type:"POST",
-        url: "/environment_monitor/set_sent_frequency/",
-        dataType:"json",
-        data:{"freq":frequency},
-        async: true,
-        success: function(data) {
-           if(data["response"].indexOf("Error")!=-1)
-              show_notification("failure", data["response"]);
-           else
-              show_notification("success", data["response"]);
+   iotMsSocket.send(JSON.stringify({
+       'message': {
+           'command':'set_frequency',
+           'freq':frequency,
         }
- }).responseText});
-
-
+   }));
+});
 
 /***************** Load device data ************************/
 data = $.ajax({

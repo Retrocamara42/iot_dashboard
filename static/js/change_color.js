@@ -14,7 +14,7 @@ function changeColor(){
 }
 
 current_index_color=Cookies.get('index_color');
-if(current_index_color>=menu_bg_colors.length){
+if(current_index_color>=menu_bg_colors.length || current_index_color=="NaN"){
    current_index_color=0;
    Cookies.set('index_color', 0, { secure: true });
 }

@@ -5,3 +5,5 @@ gunicorn
 pytz
 whitenoise
 awsiotsdk
+channels
+channels_redis

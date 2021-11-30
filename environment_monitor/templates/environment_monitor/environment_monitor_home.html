@@ -9,17 +9,18 @@
       <h2>Temperatura</h2>
       <label>Mostrar <input id="puntos_temp" type="number" value="20"
          max="99" min="0"/> puntos</label>
-      <button class="small-button" onclick="getTemperatureDataByPoints()">Actualizar</button>
+      <button class="small-button" onclick="updateDataPointsTemperature()">Actualizar</button>
       <canvas id="temperature"></canvas>
       <!-- Humidity -->
       <h2>Humedad</h2>
       <label>Mostrar <input id="puntos_humid" type="number" value="20"
          max="99" min="0"/> puntos</label>
-      <button class="small-button" onclick="getHumidityDataByPoints()">Actualizar</button>
+      <button class="small-button" onclick="updateDataPointsHumidity()">Actualizar</button>
       <canvas id="humidity"></canvas>
     </div>
 {% endblock %}
 {% block extra_js %}
 <script src="{% static 'js/measurement_chart.js' %}"></script>
-<script src="{% static 'environment_monitor/js/environment_monitor.js' %}"></script>
+<script src="{% static 'environment_monitor/js/ws_environment_monitor.js' %}"></script>
+<script src="{% static 'environment_monitor/js/dashboard_environment_monitor.js' %}"></script>
 {% endblock %}

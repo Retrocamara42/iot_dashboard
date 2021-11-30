@@ -16,11 +16,4 @@ urlpatterns = [
     #### Environment monitor
     path('environment_monitor/dashboard/', env_monitor.EnvironmentMonitorDashboardView.as_view()),
     path('environment_monitor/control/', env_monitor.EnvironmentMonitorControlView.as_view()),
-    #### Environment monitor - temperature
-    path('environment_monitor/get_temperature_data/', env_monitor.get_temperature_data, name="get_temperature_data"),
-    #### Environment monitor - humidity
-    path('environment_monitor/get_humidity_data/', env_monitor.get_humidity_data, name="get_humidity_data"),
-    #### Commands
-    path('environment_monitor/query_device/', env_monitor.query_device, name="query_device"),
-    path('environment_monitor/set_sent_frequency/', env_monitor.set_sent_frequency, name="set_sent_frequency"),
 ]
