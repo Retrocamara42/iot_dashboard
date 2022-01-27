@@ -6,4 +6,4 @@ pytz
 whitenoise
 awsiotsdk
 channels
-channels_redis
+channels-redis

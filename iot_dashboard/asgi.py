@@ -8,16 +8,24 @@ https://docs.djangoproject.com/en/3.0/howto/deployment/asgi/
 """
 
 import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'iot_dashboard.settings')
+
+from django.core.wsgi import get_wsgi_application
+application=get_wsgi_application()
+
+from django.core.asgi import get_asgi_application
+asgi_app=get_asgi_application()
+
+import django
+import environment_monitor.routing
+django.setup()
 
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
-from django.core.asgi import get_asgi_application
-import environment_monitor.routing
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'iot_dashboard.settings')
 
 application = ProtocolTypeRouter({
-    "http": get_asgi_application(),
+    "http": asgi_app,
     "websocket": AuthMiddlewareStack(
         URLRouter(
             environment_monitor.routing.websocket_urlpatterns
