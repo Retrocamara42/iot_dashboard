@@ -9,7 +9,7 @@ import environment_monitor.views as env_monitor
 urlpatterns = [
     path('admin/', admin.site.urls),
     ### Home
-    path('', home.HomeView.as_view())
+    path('', home.HomeView.as_view()),
     path('home/get_device_data/', env_monitor.get_device_data),
     #### Sound recorder
     path('sound_recorder/home/', sound_recorder.SoundRecorderHomeView.as_view()),
