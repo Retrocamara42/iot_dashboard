@@ -4,7 +4,7 @@ var humidityChart;
 
 /****** Socket declaration *****/
 const iotMsSocket = new WebSocket(
-   'ws://'
+   (window.location.protocol === 'https:') ? 'wss://' : 'ws://'
    + window.location.host
    + '/ws/environment_monitor/'
    + device_name
