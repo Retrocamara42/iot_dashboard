@@ -22,6 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 
+# ALLOWED_HOSTS
+ALLOWED_HOSTS=["localhost"]
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 #DEBUG = True
@@ -128,7 +131,7 @@ STATIC_URL = '/staticfiles/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [
-    BASE_DIR + "/static",
+    BASE_DIR + "/staticfiles",
 ]
 
 
