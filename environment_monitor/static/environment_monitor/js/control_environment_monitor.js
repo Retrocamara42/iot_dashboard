@@ -44,3 +44,7 @@ data = $.ajax({
       $("#freq_env").val(device["fields"]["sent_frequency"]);
     }
 }).responseText;
+
+
+$('#monitor_ambiente').css("font-weight","bold");
+$('#mon_amb_control').css("font-weight","bold");

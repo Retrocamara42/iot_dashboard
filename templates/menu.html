@@ -35,14 +35,17 @@
        </header>
        <ul class="nav">
          <li class="nav-item nav-expandable nav-closed">
-            <div><i class="fas fa-thermometer-half"></i>Monitor de ambiente</div>
+            <div id="monitor_ambiente">
+               <i class="fas fa-thermometer-half"></i>Monitor de ambiente</div>
             <ul class="sub-nav">
                <li class="nav-sub-item">
-                  <div onclick="location.href='/environment_monitor/dashboard/'"
+                  <div id="mon_amb_dashboard"
+                  onclick="location.href='/environment_monitor/dashboard/'"
                   ><i class="fas fa-chart-line"></i>Dashboard</div>
                </li>
                <li class="nav-sub-item">
-                  <div onclick="location.href='/environment_monitor/control/'"
+                  <div id="mon_amb_control"
+                  onclick="location.href='/environment_monitor/control/'"
                   ><i class="fas fa-satellite-dish"></i>Control</div>
                </li>
             </ul>

@@ -26,8 +26,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 ALLOWED_HOSTS=["localhost"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-#DEBUG = True
+#DEBUG = False
+DEBUG = True
 
 # Application definition
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'home',
     'sound_recorder',
     'environment_monitor',
 ]
@@ -141,18 +142,18 @@ REST_FRAMEWORK = {
 }
 
 
-"""CHANNEL_LAYERS = {
+CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
     }
-}"""
+}
 
 
-CHANNEL_LAYERS = {
+"""CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
             "hosts": [('127.0.0.1', 6379)],
         },
     },
-}
+}"""

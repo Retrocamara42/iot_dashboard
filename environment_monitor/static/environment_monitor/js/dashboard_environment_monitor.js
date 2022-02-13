@@ -42,27 +42,27 @@ iotMsSocket.onmessage = function(e) {
       // Temperature
       if(message.topic=="temperature"){
          // Remove first point
-         temperatureChart.data.labels.pop();
+         temperatureChart.data.labels.shift();
          temperatureChart.data.datasets.forEach((dataset) => {
-            dataset.data.pop();
+            dataset.data.shift();
          });
          // Add new point
-         temperatureChart.data.labels.push(message['timestamp']);
+         temperatureChart.data.labels.unshift(message['timestamp']);
          temperatureChart.data.datasets.forEach((dataset) => {
-            dataset.data.push(message['temp']);
+            dataset.data.unshift(message['temp']);
          });
          temperatureChart.update();
       }
       else if(message.topic=="humidity"){
          // Remove first point
-         humidityChart.data.labels.pop();
+         humidityChart.data.labels.shift();
          humidityChart.data.datasets.forEach((dataset) => {
-            dataset.data.pop();
+            dataset.data.shift();
          });
          // Add new point
-         humidityChart.data.labels.push(message['timestamp']);
+         humidityChart.data.labels.unshift(message['timestamp']);
          humidityChart.data.datasets.forEach((dataset) => {
-            dataset.data.push(message['humid']);
+            dataset.data.unshift(message['humid']);
          });
          humidityChart.update();
       }
@@ -75,7 +75,7 @@ iotMsSocket.onmessage = function(e) {
             temperatureChart.destroy();
          }
          temperatureChart=drawChart(data["message"], '#temperature', 'temperature',
-         'temperature', '#456990', '#456990', '°C');
+         'temperature', '#1c66c9', '#1c66c9', '°C');
       }
       // Humidity
       else if(message.model=="environment_monitor.humidity"){
@@ -83,7 +83,11 @@ iotMsSocket.onmessage = function(e) {
             humidityChart.destroy();
          }
          humidityChart=drawChart(data["message"], '#humidity', 'humidity',
-         'humidity', '#2e7d32', '#2e7d32', '%');
+         'humidity', '#4db352', '#4db352', '%');
       }
    }
 };
+
+$('#monitor_ambiente').css("font-weight","bold");
+$('#mon_amb_dashboard').css("font-weight","bold");
+
