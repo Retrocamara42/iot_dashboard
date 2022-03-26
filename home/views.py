@@ -12,3 +12,14 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+"""
+DeviceView: Devices' view of underground cuy
+"""
+class DeviceView(TemplateView):
+    template_name = "home/devices.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

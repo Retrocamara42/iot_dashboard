@@ -31,6 +31,39 @@ h2{
    margin-bottom:20px;
 }
 
+.home-block{
+  background-color: #fbfbfb;
+  border-color: #fbfbfb;
+  display: inline-block;
+  color: #575757;
+  padding:75px;
+  border-radius:25px;
+  margin:20px;
+  font-size:24px;
+  text-align: center;
+}
+
+.device-block{
+  background-color: #fbfbfb;
+  border-color: #fbfbfb;
+  display: inline-block;
+  color: #575757;
+  padding:50px;
+  border-radius:25px;
+  margin:15px;
+  font-size:20px;
+  text-align: center;
+}
+
+.home-block:hover{
+  color: #fbfbfb;
+  background-color: #575757;
+}
+
+.device-img{
+  height:256px;
+}
+
 canvas {
   background-color: #fbfbfb;/*#f2f2f2;*/
   border-radius:15px;

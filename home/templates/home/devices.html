@@ -1,0 +1,20 @@
+{% extends "menu.html" %}
+{% load static %}
+{% block title %}Dispositivos{% endblock %}
+{% block content %}
+     <!-- Content -->
+    <div class="container-fluid">
+       <h1 style="color:#645664">Dispositivos</h1>
+       <row>
+          <div class="device-block">
+             <p>Monitor de temperatura y humedad</p>
+             <img src="{% static 'home/resources/mon_amb_v1.jpg' %}" 
+               alt="Monitor de temperatura y humedad"
+               class="device-img"></img>
+          </div>
+          </div>
+       </row>
+    </div>
+{% endblock %}
+{% block extra_js %}
+{% endblock %}

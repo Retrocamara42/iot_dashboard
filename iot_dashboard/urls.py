@@ -10,6 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     ### Home
     path('', home.HomeView.as_view(), name="home"),
+    path('devices/', home.DeviceView.as_view(), name="devices"),
     path('home/get_device_data/', env_monitor.get_device_data),
     #### Sound recorder
     path('sound_recorder/home/', sound_recorder.SoundRecorderHomeView.as_view()),
