@@ -8,6 +8,8 @@ https://docs.djangoproject.com/en/3.0/howto/deployment/asgi/
 """
 
 import os
+
+import AniM5Stack
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'iot_dashboard.settings')
 
 from django.core.wsgi import get_wsgi_application
@@ -18,6 +20,7 @@ asgi_app=get_asgi_application()
 
 import django
 import environment_monitor.routing
+import AniM5Stack.routing
 django.setup()
 
 from channels.auth import AuthMiddlewareStack
@@ -29,6 +32,11 @@ application = ProtocolTypeRouter({
     "websocket": AuthMiddlewareStack(
         URLRouter(
             environment_monitor.routing.websocket_urlpatterns
+        )
+    ),
+    "websocket": AuthMiddlewareStack(
+        URLRouter(
+            AniM5Stack.routing.websocket_urlpatterns
         )
     ),
 })

@@ -14,9 +14,6 @@ import json
 import os
 from uuid import uuid4
 import time
-# Aws imports
-from awscrt import io, mqtt, auth, http
-from awsiot import mqtt_connection_builder
 # Project imports
 from .models import *
 #from .serializers import TemperatureSerializer,HumiditySerializer

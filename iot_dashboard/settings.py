@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'home',
     'sound_recorder',
     'environment_monitor',
+    'AniM5Stack',
 ]
 
 MIDDLEWARE = [
@@ -157,3 +158,4 @@ CHANNEL_LAYERS = {
         },
     },
 }
+

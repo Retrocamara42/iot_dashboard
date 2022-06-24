@@ -1,0 +1,20 @@
+from django.db import models
+from django.utils import timezone
+# Create your models here.
+"""
+SdInfo:
+    - device_name: String. Name of the device
+    - timestamp: Datetime. Datetime when it was registered
+    - total_storage: Integer. Total storage
+    - free_storage: Integer. Free storage
+    - used_storage: Integer. Used storage
+"""
+class SdInfo(models.Model):
+    device_name=models.CharField(primary_key=True,max_length=10)
+    timestamp=models.DateTimeField(default=timezone.now)
+    total_storage=models.IntegerField()
+    free_storage=models.IntegerField()
+    used_storage=models.IntegerField()
+
+    class Meta:
+        db_table = 'sd_info'
