@@ -8,6 +8,7 @@ from django.core import serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.views.decorators.csrf import csrf_exempt
 # Python imports
 import pytz
 import json
@@ -20,10 +21,9 @@ from .models import *
 
 # VIEWS
 ######################################################
-"""
-EnvironmentMonitorDashboardView: Dashboard view of app environemnt monitor
-"""
 class EnvironmentMonitorDashboardView(TemplateView):
+    """ EnvironmentMonitorDashboardView: Dashboard view of app environemnt monitor
+    """
     template_name = "environment_monitor/environment_monitor_home.html"
 
     def get_context_data(self, **kwargs):
@@ -31,10 +31,9 @@ class EnvironmentMonitorDashboardView(TemplateView):
         return context
 
 
-"""
-EnvironmentMonitorControlView: Control view of app environemnt monitor
-"""
 class EnvironmentMonitorControlView(TemplateView):
+    """ EnvironmentMonitorControlView: Control view of app environemnt monitor
+    """
     template_name = "environment_monitor/environment_monitor_control.html"
 
     def get_context_data(self, **kwargs):
@@ -44,10 +43,10 @@ class EnvironmentMonitorControlView(TemplateView):
 
 # GET DATA FUNCTIONS
 ######################################################
-"""
-get_device_data: Gets device data
-"""
+@csrf_exempt
 def get_device_data(request):
+    """ get_device_data: Gets device data
+    """
     dataset = [Device.objects.get(device_name="iot_ms")]
     json_response = serializers.serialize('json', dataset)
     return JsonResponse(json_response, safe=False)
