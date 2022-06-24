@@ -1,4 +1,10 @@
 /****** SD Info functions *****/
+Date.prototype.addHours = function(h) {
+   this.setTime(this.getTime() + (h*60*60*1000));
+   return this;
+ }
+
+
 function humanReadableSize(bytes){
    if(bytes>=1000000000){
      return String((bytes/1000000000).toFixed(1))+" GB";
@@ -25,14 +31,29 @@ function update_sd_info(sd_info){
 }
 
 
+function change_status_on(){
+   $("#status").html('<i id="status_icon" class="fas fa-power-off" '+
+      'style="color:green" ></i>Conectado');
+}
+
+
+function change_status_off(){
+   $("#status").html('<i id="status_icon" class="fas fa-power-off" '+
+      'style="color:gray" ></i>Desconectado');
+}
+
 function check_m5_status(last_update_time){
-   var time_diff=new Date()-new Date(last_update_time);
+   var last_update_date=new Date(last_update_time);
+   last_update_date = last_update_date.addHours(10); // Time correction from DB
+   var now=(new Date()).toUTCString();
+   now=new Date(now.substring(0,now.length-3));
+   var time_diff=now-last_update_date;
    time_diff = time_diff/(1000*3600);
    if(time_diff<1){
-      $("#status_icon").css("color","green");
+      change_status_on();
    }
    else{
-      $("#status_icon").css("color","gray");
+      change_status_off();
    }
 }
 
@@ -49,11 +70,11 @@ function check_m5_status(last_update_time){
     if(message.hasOwnProperty("topic")){
        // SD Info
        if(message.topic=="m5_sd_info"){
-         $("#status_icon").css("color","green");
+         change_status_on();
          update_sd_info(message);
        }
        else if(message.topic=="m5_alive"){
-         $("#status_icon").css("color","green");
+         change_status_on();
        }
     }
  };
