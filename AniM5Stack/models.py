@@ -12,9 +12,9 @@ class SdInfo(models.Model):
     """
     device_name=models.CharField(primary_key=True,max_length=10)
     timestamp=models.DateTimeField(default=timezone.now)
-    total_storage=models.IntegerField()
-    free_storage=models.IntegerField()
-    used_storage=models.IntegerField()
+    total_storage=models.BigIntegerField()
+    free_storage=models.BigIntegerField()
+    used_storage=models.BigIntegerField()
 
     class Meta:
         db_table = 'sd_info'
