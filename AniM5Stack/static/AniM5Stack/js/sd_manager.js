@@ -1,27 +1,27 @@
 /****** SD Info functions *****/
 function humanReadableSize(bytes){
    if(bytes>=1000000000){
-     return String(bytes/1000000000)+" GB";
+     return String((bytes/1000000000).toFixed(1))+" GB";
    }
    else if(bytes>=1000000){
-     return String(bytes/1000000)+" MB";  
+     return String((bytes/1000000).toFixed(1))+" MB";  
    }
    else if(bytes>=1000){
-     return String(bytes/1000)+" KB";
+     return String((bytes/1000).toFixed(1))+" KB";
    }
    else{
-     return String(bytes)+" B";
+     return String((bytes).toFixed(1))+" B";
    }
  }
 
 
 function update_sd_info(sd_info){
    total_storage=humanReadableSize(sd_info["total_storage"])
-   $("#total_storage").val("Almacenamiento total: <br>"+total_storage);
+   $("#total_storage").html("Almacenamiento total: <br>"+total_storage);
    free_storage=humanReadableSize(sd_info["free_storage"])
-   $("#free_storage").val("Almacenamiento total: <br>"+free_storage);
+   $("#free_storage").html("Almacenamiento total: <br>"+free_storage);
    used_storage=humanReadableSize(sd_info["used_storage"])
-   $("#used_storage").val("Almacenamiento total: <br>"+used_storage);
+   $("#used_storage").html("Almacenamiento total: <br>"+used_storage);
 }
 
 
@@ -79,8 +79,7 @@ data = $.ajax({
    dataType:"json",
    async: true,
    success: function(data){
-      sd_info=JSON.parse(data);
-      print(data);
+      sd_info=JSON.parse(data)[0];
       check_m5_status(sd_info["fields"]["timestamp"]);
       update_sd_info(sd_info["fields"]);
    }

@@ -24,6 +24,6 @@ class Anim5SDManagerView(TemplateView):
 def get_sd_info(request):
     """ get_sd_info: Gets sd info
     """
-    record = SdInfo.objects.get(device_name="anim5")
+    record = [SdInfo.objects.get(device_name="anim5")]
     json_response = serializers.serialize('json', record)
     return JsonResponse(json_response, safe=False)
