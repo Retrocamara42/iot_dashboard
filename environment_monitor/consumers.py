@@ -12,6 +12,7 @@ from awscrt import io, mqtt, auth, http
 from awsiot import mqtt_connection_builder
 # Project imports
 from .models import *
+from iot_dashboard.constants import *
 
 utc_5 = pytz.timezone('America/Lima')
 
@@ -68,9 +69,9 @@ class EnvMonitorConsumer(WebsocketConsumer):
         self.mqtt_connection = mqtt_connection_builder.mtls_from_path(
                 endpoint=os.getenv('MQTT_ENDPOINT'),
                 port=int(os.getenv('MQTT_PORT')),
-                cert_filepath="./certs/iot_multisensor_certificate.pem.crt",
-                pri_key_filepath="./certs/iot_multisensor_private.pem.key",
-                ca_filepath="./certs/AmazonRootCA1.pem",
+                cert_filepath=CERT_FILEPATH,
+                pri_key_filepath=PRI_KEY_FILEPATH,
+                ca_filepath=CA_FILEPATH,
                 client_bootstrap=client_bootstrap,
                 clean_session=False,
                 client_id="iot-" + str(uuid4()),
@@ -145,11 +146,11 @@ class EnvMonitorConsumer(WebsocketConsumer):
                 print("Error while parsing value frequency to int: "+str(e))
                 freq=-1
             if(freq>0 and freq<=999):
-                a=self.mqtt_connection.publish(
+                resp=self.mqtt_connection.publish(
                     topic='remote_action',
                     payload=json.dumps({"f":freq}),
                     qos=mqtt.QoS.AT_LEAST_ONCE)
-                print(a)
+                print(resp)
                 self.send(text_data=json.dumps({
                     'message': [{
                         'command_response': 'Mensaje para actualizar frecuencia enviado'
