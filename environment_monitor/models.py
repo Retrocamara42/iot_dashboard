@@ -40,10 +40,12 @@ class Device(models.Model):
     Device:
         - id: Int. Id
         - device_name: String. Name of the device
+        - token: String. Token to validate device
         - sent_frequency: Int. Frequency in minutes to send messages
     """
     id=models.BigAutoField(primary_key=True)
     device_name=models.CharField(max_length=10)
+    token=models.CharField(max_length=35)
     sent_frequency=models.IntegerField()
 
     class Meta:

@@ -4,6 +4,11 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
+from environment_monitor.models import *
+from django.conf import settings
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 
 # VIEWS
 ######################################################
@@ -22,8 +27,38 @@ class Anim5SDManagerView(TemplateView):
 ######################################################
 @csrf_exempt
 def get_sd_info(request):
-    """ get_sd_info: Gets sd info
-    """
+    """ get_sd_info: Gets sd info """
     record = [SdInfo.objects.get(device_name="anim5")]
     json_response = serializers.serialize('json', record)
     return JsonResponse(json_response, safe=False)
+
+
+# POST FUNCTIONS
+######################################################
+@api_view(['POST'])
+def post_sd_file(request):
+    """ post_sd_file: Returns sd file """
+    if request.method == "POST":
+        device=request.POST.get("device")
+        token=request.POST.get("token")
+        try:
+            device = Device.objects.get(device_name=device)
+        except Exception as e:
+            device = None
+        if device is not None:
+            print(device.token)
+            print(token)
+            if device.token==token:
+                filename="prueba.bmp"
+                path_file=settings.MEDIA_ROOT+filename
+                with open(path_file, 'rb') as output:
+                    content=output.readlines()
+                content=b''.join(content)
+                #content=content.decode("utf-8")
+                #payload = '{{"dv":{},"tk":{},"fn":{}}}'.format(
+                #    "anim5", token, filename)
+                payload = '{{"fl":{}}}'.format(content)
+                return Response(payload, status=status.HTTP_201_CREATED)
+        return Response('{{"error":{}}}'.format(
+            "Device doesn't go with said token"), 
+            status=status.HTTP_400_BAD_REQUEST)

@@ -9,17 +9,13 @@ from awscrt import io, mqtt, auth, http
 from awsiot import mqtt_connection_builder
 # Project imports
 from .models import *
+from environment_monitor.models import *
 from iot_dashboard.constants import *
-import binascii
 from django.conf import settings
 
 utc_5 = pytz.timezone('America/Lima')
 
 class AniM5StackConsumer(WebsocketConsumer):
-    PACKET_SIZE=384
-    ACCEPT_STREAM_TOPIC="$aws/things/anim5stack/streams/StreamId/description/json"
-    REJECT_STERAM_TOPIC="$aws/things/anim5stack/streams/StreamId/rejected/json"
-
     ########### Subscription functions ###########
     def on_sd_info_received(self, topic, payload, **kwargs):
         print("Received message from topic '{}': {}".format(topic, payload))
@@ -43,59 +39,12 @@ class AniM5StackConsumer(WebsocketConsumer):
                         'used_storage':message['used_storage']
                     }]
                 }))
-            elif(topic=="sd_missing_file"):
-                print("SD missing files")
-                missing_files=message['miss_files'].split(";")
-                path_file=settings.MEDIA_ROOT+missing_file
-                num_packets = 1+os.path.getsize(path_file)/self.PACKET_SIZE
-                missing_files=missing_files[1:]
-                print(missing_files)
-                ranges=[]
-                for missing_file in missing_files[1:]:
-                    # Get ranges
-                    delimiters=missing_file.split("_")
-                    print("Delimiters found: "+str(delimiters))
-                    if len(delimiters)==1:
-                        ranges.append(delimiters[0])
-                    else:
-                        ranges.append((delimiters[0],delimiters[1]))
-                ranges.sort()
-                for i in range(self.PACKET_SIZE):
-                    skip=False
-                    for delimiters in ranges:
-                        if len(delimiters)>1:
-                            if(i>=delimiters[0] and i<=delimiters[1]):
-                                skip=True
-                                break
-                            elif delimiters[0]>i:
-                                break
-                            elif i>delimiters[1]:
-                                ranges.remove(delimiters)
-                        elif i==delimiters[0]:
-                            skip=True
-                            ranges.remove(delimiters)
-                            break
-                    if skip: continue
-                    # Read packet
-                    start_ind=i*self.PACKET_SIZE
-                    with open(path_file, 'rb') as output:
-                        output.seek(start_ind)
-                        bytes_data=output.read(self.PACKET_SIZE)
-                    payload = '{{"fn":{},"tt":{},"pn":{},"pt":{}}}'.format(
-                        '"prueba.bmp"', num_packets, i, 
-                        binascii.hexlify(bytes_data))
-                    # Send packet
-                    print(payload)
-                    self.mqtt_connection.publish(
-                        topic='sd_file',                    
-                        payload=payload,
-                        qos=mqtt.QoS.AT_LEAST_ONCE)
-
 
 
     ########### Consumer functions ###########
     def connect(self):
         self.device_name = self.scope['url_route']['kwargs']['device_name']
+        print("Connected to device:",self.device_name)
         self.accept()
         # Creating event loop
         self.event_loop_group = io.EventLoopGroup(1)
@@ -133,18 +82,14 @@ class AniM5StackConsumer(WebsocketConsumer):
             #message = text_data_json['message']
         if bytes_data:
             # Saving file temporarily
-            path_file=settings.MEDIA_ROOT+"prueba.bmp"
+            filename="prueba.bmp"
+            path_file=settings.MEDIA_ROOT+filename
             with open(path_file, 'wb') as output:
                 output.write(bytes_data)
-            #imagestring = bytearray(bytes_data)
-            num_packets=int(1+(len(bytes_data)/self.PACKET_SIZE))
-            for i in range(num_packets):
-                print("Sending packet "+str(i)+" from "+str(num_packets))
-                start_ind=i*self.PACKET_SIZE
-                end_ind=start_ind+self.PACKET_SIZE
-                payload = '{{"d":{}}}'.format(
-                    '"prueba.bmp"')
-                self.mqtt_connection.publish(
-                    topic=self.ACCEPT_STREAM_TOPIC,                    
-                    payload=payload,
-                    qos=mqtt.QoS.AT_LEAST_ONCE)
+            token=Device.objects.get(device_name=self.device_name).token
+            payload = '{{"dv":{},"tk":{},"fn":{}}}'.format(
+                "anim5", token, filename)
+            self.mqtt_connection.publish(
+                topic="sd_file",                    
+                payload=payload,
+                qos=mqtt.QoS.AT_LEAST_ONCE)

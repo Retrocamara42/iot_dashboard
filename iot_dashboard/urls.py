@@ -7,6 +7,7 @@ import sound_recorder.views as sound_recorder
 import environment_monitor.views as env_monitor
 import AniM5Stack.views as anim5_stack
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     ### Home
@@ -23,4 +24,5 @@ urlpatterns = [
     ### AniM5Stack
     path('anim5_stack/sd_manager/', anim5_stack.Anim5SDManagerView.as_view()),
     path('anim5_stack/load_sd_info/', anim5_stack.get_sd_info, name="get_sd_info"),
+    path('anim5_stack/sd_file/', anim5_stack.post_sd_file, name="post_sd_file"),
 ]
