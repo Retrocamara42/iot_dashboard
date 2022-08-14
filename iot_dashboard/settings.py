@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import logging
+logging.basicConfig(
+    level = logging.INFO,
+    format = '%(asctime)s %(levelname)s %(message)s',
+    filename = '/tmp/djangoLog.log',)
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,7 +29,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # ALLOWED_HOSTS
-#ALLOWED_HOSTS=["localhost"]
+ALLOWED_HOSTS=["localhost"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -144,19 +150,19 @@ REST_FRAMEWORK = {
 }
 
 
-CHANNEL_LAYERS = {
+"""CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
     }
-}
+}"""
 
 
-"""CHANNEL_LAYERS = {
+CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
             "hosts": [('127.0.0.1', 6379)],
         },
     },
-}"""
+}
 
