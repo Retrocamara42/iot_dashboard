@@ -53,7 +53,7 @@ def post_sd_file(request):
                 path_file=os.path.join(settings.MEDIA_ROOT,filename)
                 with open(path_file, 'rb') as output:
                     content=output.readlines()
-                payload=base64.b64encode(content.read())#b''.join(content)
+                payload=b''.join(content)
                 #payload='{{"fl":{}}}'.format(content)
                 return Response(payload, status=status.HTTP_200_OK)
         return Response('{{"error":{}}}'.format(
