@@ -9,6 +9,7 @@ from django.conf import settings
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+import os
 
 # VIEWS
 ######################################################
@@ -46,11 +47,9 @@ def post_sd_file(request):
         except Exception as e:
             device = None
         if device is not None:
-            print(device.token)
-            print(token)
             if device.token==token:
                 filename="prueba.bmp"
-                path_file=settings.MEDIA_ROOT+filename
+                path_file=os.path.join(settings.MEDIA_ROOT,filename)
                 with open(path_file, 'rb') as output:
                     content=output.readlines()
                 content=b''.join(content)
@@ -58,7 +57,7 @@ def post_sd_file(request):
                 #payload = '{{"dv":{},"tk":{},"fn":{}}}'.format(
                 #    "anim5", token, filename)
                 payload = '{{"fl":{}}}'.format(content)
-                return Response(payload, status=status.HTTP_201_CREATED)
+                return Response(payload, status=status.HTTP_200_OK)
         return Response('{{"error":{}}}'.format(
             "Device doesn't go with said token"), 
             status=status.HTTP_400_BAD_REQUEST)

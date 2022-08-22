@@ -83,7 +83,7 @@ class AniM5StackConsumer(WebsocketConsumer):
         if bytes_data:
             # Saving file temporarily
             filename="prueba.bmp"
-            path_file=settings.MEDIA_ROOT+filename
+            path_file=os.path.join(settings.MEDIA_ROOT,filename)
             with open(path_file, 'wb') as output:
                 output.write(bytes_data)
             token=Device.objects.get(device_name=self.device_name).token
