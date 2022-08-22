@@ -53,8 +53,8 @@ def post_sd_file(request):
                 path_file=os.path.join(settings.MEDIA_ROOT,filename)
                 with open(path_file, 'rb') as output:
                     content=output.readlines()
-                payload=b''.join(content)
-                #payload='{{"fl":{}}}'.format(content)
+                content=b''.join(content)
+                payload='{}'.format(content)
                 return Response(payload, status=status.HTTP_200_OK)
         return Response('{{"error":{}}}'.format(
             "Device doesn't go with said token"), 
