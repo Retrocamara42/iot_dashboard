@@ -10,6 +10,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 import os
+import base64
 
 # VIEWS
 ######################################################
@@ -52,11 +53,8 @@ def post_sd_file(request):
                 path_file=os.path.join(settings.MEDIA_ROOT,filename)
                 with open(path_file, 'rb') as output:
                     content=output.readlines()
-                content=b''.join(content)
-                #content=content.decode("utf-8")
-                #payload = '{{"dv":{},"tk":{},"fn":{}}}'.format(
-                #    "anim5", token, filename)
-                payload = '{{"fl":{}}}'.format(content)
+                payload=base64.b64encode(content.read())#b''.join(content)
+                #payload='{{"fl":{}}}'.format(content)
                 return Response(payload, status=status.HTTP_200_OK)
         return Response('{{"error":{}}}'.format(
             "Device doesn't go with said token"), 
