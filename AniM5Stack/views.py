@@ -54,7 +54,7 @@ def post_sd_file(request):
                 with open(path_file, 'rb') as output:
                     content=output.readlines()
                 content=b''.join(content)
-                content=str(content, 'utf-8')
+                #content=str(content, 'utf-8')
                 payload='{}'.format(content)
                 return Response(payload, status=status.HTTP_200_OK)
         return Response('{{"error":{}}}'.format(
