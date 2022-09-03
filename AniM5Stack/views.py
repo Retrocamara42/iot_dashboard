@@ -34,7 +34,7 @@ def get_sd_info(request):
     json_response = serializers.serialize('json', record)
     return JsonResponse(json_response, safe=False)
 
-
+import binascii
 # POST FUNCTIONS
 ######################################################
 @api_view(['POST'])
@@ -54,8 +54,7 @@ def post_sd_file(request):
                 with open(path_file, 'rb') as output:
                     content=output.readlines()
                 content=b''.join(content)
-                #content=str(content, 'utf-8')
-                payload='{}'.format(content)
+                payload=binascii.b2a_hex(content)
                 return Response(payload, status=status.HTTP_200_OK)
         return Response('{{"error":{}}}'.format(
             "Device doesn't go with said token"), 
