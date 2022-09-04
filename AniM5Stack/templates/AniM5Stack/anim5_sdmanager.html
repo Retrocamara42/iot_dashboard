@@ -17,15 +17,19 @@
         <div class="block-info" id="used_storage"
             >Almacenamiento usado: <br>Desconectado</div>
         <h2>Subir archivos</h2>
-        <p>(No usar espacios en el nombre del archivo)</p>
         <!--form method="POST" action="/upload" enctype="multipart/form-data">
             <label class="upload-label">Select one file<input type="file" name="data" class="data"/></label>
             <input type="submit" name="upload" value="Upload" title="Upload File">
         </form-->
-        <div class="container-command">
+        <!--div class="container-command">
             <input type="file" id="sd_file" name="sd_file"/>
             <button id="upload_to_sd">Subir</button>
-        </div>
+        </div-->
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="sd_file">
+            <button type="submit">Upload</button>
+          </form>
         <h2>Directorio de la tarjeta SD</h2>
         <p>Archivos actuales en memoria:</p>
         <p class="files">Desconectado</p>

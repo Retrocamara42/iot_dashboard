@@ -82,9 +82,9 @@ canvas {
 
 .container-fluid button{
    background-color: #EE3D48;
-   padding: 10px 32px;
+   padding: 6px 20px;
    text-align: center;
-   font-size:18px;
+   font-size:16px;
    color:white;
    border-radius: 10px;
 }

@@ -77,19 +77,4 @@ class AniM5StackConsumer(WebsocketConsumer):
 
 
     def receive(self, text_data=None, bytes_data=None):
-        #if text_data:
-         #   text_data_json = json.loads(text_data)
-            #message = text_data_json['message']
-        if bytes_data:
-            # Saving file temporarily
-            filename="prueba.bmp"
-            path_file=os.path.join(settings.MEDIA_ROOT,filename)
-            with open(path_file, 'wb') as output:
-                output.write(bytes_data)
-            token=Device.objects.get(device_name=self.device_name).token
-            payload = '{{"dv":{},"tk":{},"fn":{}}}'.format(
-                "anim5", token, filename)
-            self.mqtt_connection.publish(
-                topic="sd_file",                    
-                payload=payload,
-                qos=mqtt.QoS.AT_LEAST_ONCE)
+        pass

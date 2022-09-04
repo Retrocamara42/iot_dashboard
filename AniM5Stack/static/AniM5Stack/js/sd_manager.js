@@ -78,19 +78,38 @@ function check_m5_status(last_update_time){
        }
     }
  };
-
+/*
 $("#upload_to_sd").click(function() {
    var file = document.getElementById('sd_file').files[0];
+   var sd_filename = document.getElementById('sd_file').value;
+   sd_filename=sd_filename.substring(sd_filename.lastIndexOf("\\")+1);
+   console.log(sd_filename)
    var reader = new FileReader();
    var rawData = new ArrayBuffer();
+   let sizeLength = 1;
+   if (file.size > 0xffff){ sizeLength = 4; }
+   else if (file.size > 0xff){ sizeLength = 2; }
+
+   const utf8 = new TextEncoder();
+   const nameBuffer = utf8.encode(sd_filename);
+   const length = file.size + sizeLength + nameBuffer.length + 2;
+   const buffer = new Uint8Array(length)
+
+   let i = 0;
+   buffer[i] = nameBuffer.length;
+   buffer.set(i+=1, nameBuffer);
+   const sizeView = new DataView(buffer)
+   sizeView[`setUInt${sizeLength*8}`](i += nameBuffer, file.size)
+
    reader.onload = function(e) {
       rawData = e.target.result;
-      iotMsSocket.send(rawData);
+      buffer.set(rawData, i + sizeLength)
+      iotMsSocket.send(buffer);
       alert("Se envió el archivo");
    }
    reader.readAsArrayBuffer(file);
 });
-
+*/
 
 
 /***************** Load sd info ************************/
