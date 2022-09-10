@@ -96,6 +96,7 @@ def post_sd_file(request):
                     content=output.readlines()
                 content=b''.join(content)
                 payload=binascii.b2a_hex(content)
+                os.remove(path_file)
                 return Response(payload, status=status.HTTP_200_OK)
         return Response('{{"error":{}}}'.format(
             "Device doesn't go with said token"), 
