@@ -6,6 +6,9 @@ staticfiles/*
 */*/__pycache__/*
 environment.sh
 resources/img/*
+.env
+.vscode
+deployment
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

@@ -1,8 +1,10 @@
 Django
+django-cors-headed
 mysqlclient
 djangorestframework
 gunicorn
 pytz
+whitenoise
 awsiotsdk
 channels
 channels-redis
