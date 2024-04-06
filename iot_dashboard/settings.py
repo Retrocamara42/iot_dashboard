@@ -29,7 +29,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # ALLOWED_HOSTS
-ALLOWED_HOSTS=["undergroundcuy.com"]
+ALLOWED_HOSTS=["www.undergroundcuy.com", "undergroundcuy.com"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False

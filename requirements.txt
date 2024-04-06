@@ -1,5 +1,4 @@
 Django
-django-cors-headed
 mysqlclient
 djangorestframework
 gunicorn
@@ -8,3 +7,5 @@ whitenoise
 awsiotsdk
 channels
 channels-redis
+uvicorn
+websockets
