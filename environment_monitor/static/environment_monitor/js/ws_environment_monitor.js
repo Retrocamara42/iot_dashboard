@@ -1,6 +1,7 @@
 const device_name = "iot_ms";
 var temperatureChart;
 var humidityChart;
+var pressureChart;
 
 /****** Socket declaration *****/
 const iotMsSocket = new WebSocket(

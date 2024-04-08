@@ -25,6 +25,16 @@
             <canvas id="humidity"></canvas>
          </div>
       </div>
+      <!-- Pressurety -->
+      <div class="dashboard">
+         <h2 class="dashboard-title">Pressure</h2>
+         <div class="dashboard-content">
+            <label>Mostrar <input id="puntos_press" class="num_input" 
+            type="number" value="20" max="99" min="0"/> puntos</label>
+            <button class="small-button" onclick="updateDataPointsPressure()">Actualizar</button>
+            <canvas id="pressure"></canvas>
+         </div>
+      </div>
    </div>
 {% endblock %}
 {% block extra_js %}

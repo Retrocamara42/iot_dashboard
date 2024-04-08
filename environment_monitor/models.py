@@ -35,6 +35,23 @@ class Humidity(models.Model):
         db_table = 'humidity'
 
 
+class Pressure(models.Model):
+    """
+    Pressure:
+        - id: Int. Id
+        - device_name: String. Name of the device
+        - timestamp: Datetime. Datetime when it was registered
+        - pressure: Decimal. Pressure value
+    """
+    id=models.BigAutoField(primary_key=True)
+    device_name=models.CharField(max_length=10)
+    timestamp=models.DateTimeField(default=timezone.now)
+    pressure=models.DecimalField(max_digits=5,decimal_places=2)
+
+    class Meta:
+        db_table = 'pressure'
+
+
 class Device(models.Model):
     """
     Device:

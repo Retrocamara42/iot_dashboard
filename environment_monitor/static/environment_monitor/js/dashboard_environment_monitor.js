@@ -19,6 +19,15 @@ function updateDataPointsHumidity(){
    }));
 }
 
+function updateDataPointsPressure(){
+   puntos_press=$('#puntos_press').val();
+   iotMsSocket.send(JSON.stringify({
+       'message': {
+           'command':'send_initial_data_press',
+           'max_points':puntos_press,
+        }
+   }));
+}
 
 /****** Socket functions *****/
 iotMsSocket.onopen = function(e){
@@ -26,6 +35,8 @@ iotMsSocket.onopen = function(e){
    updateDataPointsTemperature();
    // Humidity
    updateDataPointsHumidity();
+   // Pressure
+   updateDataPointsPressure();
 }
 
 
@@ -66,6 +77,19 @@ iotMsSocket.onmessage = function(e) {
          });
          humidityChart.update();
       }
+      else if(message.topic=="pressure"){
+         // Remove first point
+         pressureChart.data.labels.shift();
+         pressureChart.data.datasets.forEach((dataset) => {
+            dataset.data.shift();
+         });
+         // Add new point
+         pressureChart.data.labels.unshift(message['timestamp']);
+         pressureChart.data.datasets.forEach((dataset) => {
+            dataset.data.unshift(message['press']);
+         });
+         pressureChart.update();
+      }
    }
    // Initial data
    else if(message.hasOwnProperty("model")){
@@ -84,6 +108,14 @@ iotMsSocket.onmessage = function(e) {
          }
          humidityChart=drawChart(data["message"], '#humidity', 'humidity',
          'humidity', '#4db352', '#4db352', '%');
+      }
+      // Pressure
+      else if(message.model=="environment_monitor.pressure"){
+         if(typeof pressureChart!=='undefined'){
+            pressureChart.destroy();
+         }
+         pressureChart=drawChart(data["message"], '#pressure', 'pressure',
+         'pressure', '#4db352', '#4db352', '%');
       }
    }
 };
