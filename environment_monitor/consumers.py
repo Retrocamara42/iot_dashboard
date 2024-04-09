@@ -42,6 +42,18 @@ class EnvMonitorConsumer(WebsocketConsumer):
                 }]
             }))
 
+    def on_pressure_received(self, topic, payload, **kwargs):
+        print("Received message from topic '{}': {}".format(topic, payload))
+        message=json.loads(payload.decode('ascii'))
+        if(message["dev_name"]==self.device_name):
+            self.send(text_data=json.dumps({
+                'message': [{
+                    'topic':topic,
+                    'timestamp':datetime.now(tz=utc_5).strftime("%Y-%m-%d %H:%M:%S"),
+                    'press':message["press"]
+                }]
+            }))
+
     ########### Database functions ###########
     """
     get_temperature_data: Gets temperature data
@@ -57,6 +69,13 @@ class EnvMonitorConsumer(WebsocketConsumer):
         dataset = Humidity.objects.all().order_by('-id')[:max_points]
         return serializers.serialize('json', dataset)
 
+    """
+    get_pressure_data: Gets pressure data
+    """
+    def get_pressure_data(self, max_points):
+        dataset = Pressure.objects.all().order_by('-id')[:max_points]
+        return serializers.serialize('json', dataset)
+    
 
     ########### Consumer functions ###########
     def connect(self):
@@ -93,6 +112,13 @@ class EnvMonitorConsumer(WebsocketConsumer):
         subscribe_result = subscribe_humid.result()
         print("Subscribed with {}".format(str(subscribe_result['qos'])))
 
+        subscribe_press, packet_id_p = self.mqtt_connection.subscribe(
+                topic="pressure",
+                qos=mqtt.QoS.AT_LEAST_ONCE,
+                callback=self.on_pressure_received)
+        subscribe_result = subscribe_press.result()
+        print("Subscribed with {}".format(str(subscribe_result['qos'])))
+
 
     def disconnect(self, close_code):
         disconnect_future = self.mqtt_connection.disconnect()
@@ -127,6 +153,19 @@ class EnvMonitorConsumer(WebsocketConsumer):
             humid_data=self.get_humidity_data(max_points)
             self.send(text_data=json.dumps({
                 'message': humid_data
+            }))
+        elif(message['command']=='send_initial_data_press'):
+            try:
+                max_points=int(message['max_points'])
+                if(max_points<=0 or max_points>999):
+                    max_points=20
+            except Exception as e:
+                max_points=20
+                print("Error while converting max_points to int: "+str(e))
+            # Sending all events from database
+            press_data=self.get_pressure_data(max_points)
+            self.send(text_data=json.dumps({
+                'message': press_data
             }))
         elif(message['command']=='query_device'):
             self.mqtt_connection.publish(

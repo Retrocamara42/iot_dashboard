@@ -9,6 +9,7 @@ resources/img/*
 .env
 .vscode
 deployment
+*/migrations/*
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

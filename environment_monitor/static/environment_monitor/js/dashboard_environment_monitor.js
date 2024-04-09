@@ -115,7 +115,7 @@ iotMsSocket.onmessage = function(e) {
             pressureChart.destroy();
          }
          pressureChart=drawChart(data["message"], '#pressure', 'pressure',
-         'pressure', '#4db352', '#4db352', '%');
+         'pressure', '#ffb347', '#ffb347', 'atm');
       }
    }
 };
