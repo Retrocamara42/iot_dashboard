@@ -52,23 +52,26 @@ iotMsSocket.onmessage = function(e) {
    if(message.hasOwnProperty("topic")){
       // Temperature
       if(message.topic=="temperature"){
+         console.log(temperatureChart.data);
          // Remove first point
-         temperatureChart.data.labels.shift();
+         temperatureChart.data.labels.pop();
          temperatureChart.data.datasets.forEach((dataset) => {
-            dataset.data.shift();
+            dataset.data.pop();
          });
+         console.log(temperatureChart.data);
          // Add new point
          temperatureChart.data.labels.unshift(message['timestamp']);
          temperatureChart.data.datasets.forEach((dataset) => {
             dataset.data.unshift(message['temp']);
          });
+         console.log(temperatureChart.data);
          temperatureChart.update();
       }
       else if(message.topic=="humidity"){
          // Remove first point
-         humidityChart.data.labels.shift();
+         humidityChart.data.labels.pop();
          humidityChart.data.datasets.forEach((dataset) => {
-            dataset.data.shift();
+            dataset.data.pop();
          });
          // Add new point
          humidityChart.data.labels.unshift(message['timestamp']);
@@ -79,9 +82,9 @@ iotMsSocket.onmessage = function(e) {
       }
       else if(message.topic=="pressure"){
          // Remove first point
-         pressureChart.data.labels.shift();
+         pressureChart.data.labels.pop();
          pressureChart.data.datasets.forEach((dataset) => {
-            dataset.data.shift();
+            dataset.data.pop();
          });
          // Add new point
          pressureChart.data.labels.unshift(message['timestamp']);

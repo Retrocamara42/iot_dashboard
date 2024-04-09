@@ -29,7 +29,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # ALLOWED_HOSTS
-ALLOWED_HOSTS=["www.undergroundcuy.com", "undergroundcuy.com"]
+ALLOWED_HOSTS=["localhost","www.undergroundcuy.com", "undergroundcuy.com"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -151,19 +151,19 @@ REST_FRAMEWORK = {
 }
 
 
-"""CHANNEL_LAYERS = {
+CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
     }
-}"""
+}
 
 
-CHANNEL_LAYERS = {
+"""CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
             "hosts": [('127.0.0.1', 6379)],
         },
     },
-}
+}"""
 

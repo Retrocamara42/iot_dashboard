@@ -50,7 +50,7 @@ class EnvMonitorConsumer(WebsocketConsumer):
                 'message': [{
                     'topic':topic,
                     'timestamp':datetime.now(tz=utc_5).strftime("%Y-%m-%d %H:%M:%S"),
-                    'press':message["press"]
+                    'press':message["pressure"]
                 }]
             }))
 
