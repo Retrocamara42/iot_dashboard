@@ -1,31 +1,24 @@
-[build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
-
-
-[project]
+[tool.poetry]
 name = "iot_dashboard"
-version = "1.0.0"
-
-description = "IoT dashboard"
+version = "0.1.0"
+description = "IoT Dashboard"
+authors = ["Retrocamara42"]
+license = "MIT"
 readme = "README.md"
+repository = "https://github.com/Retrocamara42/iot_dashboard"
 
-requires-python = ">=3.8"
+# This is the Python version your project supports
+[tool.poetry.dependencies]
+python = "^3.10"
 
-authors = [
-  {name = "Retrocamara42" }
-]
-
-dependencies = [
-    "Django",
-    "mysqlclient",
-    "djangorestframework",
-    "gunicorn",
-    "pytz",
-    "whitenoise",
-    "awsiotsdk",
-    "channels",
-    "channels-redis",
-    "uvicorn",
-    "websockets"
-]
+Django
+mysqlclient
+djangorestframework
+gunicorn
+pytz
+whitenoise
+awsiotsdk
+channels
+channels-redis
+uvicorn
+websocket
