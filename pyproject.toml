@@ -11,14 +11,14 @@ repository = "https://github.com/Retrocamara42/iot_dashboard"
 [tool.poetry.dependencies]
 python = "^3.10"
 
-Django
-mysqlclient
-djangorestframework
-gunicorn
-pytz
-whitenoise
-awsiotsdk
-channels
-channels-redis
-uvicorn
-websocket
+Django = "^3.2.9"
+mysqlclient = "^2.1.0"
+djangorestframework = "^3.12.4"
+gunicorn = "^22.0.0"
+pytz = "^2019.3"
+whitenoise = "^5.3.0"
+awsiotsdk = "^1.7.1"
+channels = "^3.0.4"
+channels-redis = "^4.2.0"
+uvicorn = "^0.29.0"
+websocket = "^0.2.1"
