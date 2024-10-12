@@ -3,7 +3,6 @@
 from django.contrib import admin
 from django.urls import path
 import home.views as home
-import sound_recorder.views as sound_recorder
 import environment_monitor.views as env_monitor
 import AniM5Stack.views as anim5_stack
 
