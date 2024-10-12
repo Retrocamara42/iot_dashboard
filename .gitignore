@@ -1,0 +1,13 @@
+env_iot-dashboard/*
+env_iot-dashboard/*/*
+staticfiles/*
+*/__pycache__/*
+*/__pycache__/*/*
+*/*/__pycache__/*
+environment.sh
+resources/img/*
+.env
+.vscode
+deployment
+*/migrations/*
+certs

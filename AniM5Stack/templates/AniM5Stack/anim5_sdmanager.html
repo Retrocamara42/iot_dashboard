@@ -1,0 +1,41 @@
+{% extends "menu.html" %}
+{% load static %}
+{% block title %}AniM5Stack SD Manager{% endblock %}
+{% block content %}
+     <!-- Content -->
+    <div class="container-fluid">
+        <h1>Animate M5 Stack Server</h1>
+        <h2>Estado</h2>
+        <div class="block-connection" id="status"><i id="status_icon"
+            class="fas fa-power-off" style="color:gray"
+            ></i>Desconectado</div>
+        <h2>Información de memoria de tarjeta SD</h2>
+        <div class="block-info" id="total_storage"
+            >Almacenamiento total: <br>Desconectado</div>
+        <div class="block-info" id="free_storage"
+            >Almacenamiento libre: <br>Desconectado</div>
+        <div class="block-info" id="used_storage"
+            >Almacenamiento usado: <br>Desconectado</div>
+        <h2>Subir archivos</h2>
+        <!--form method="POST" action="/upload" enctype="multipart/form-data">
+            <label class="upload-label">Select one file<input type="file" name="data" class="data"/></label>
+            <input type="submit" name="upload" value="Upload" title="Upload File">
+        </form-->
+        <!--div class="container-command">
+            <input type="file" id="sd_file" name="sd_file"/>
+            <button id="upload_to_sd">Subir</button>
+        </div-->
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="sd_file">
+            <button type="submit">Upload</button>
+          </form>
+        <h2>Directorio de la tarjeta SD</h2>
+        <p>Archivos actuales en memoria:</p>
+        <p class="files">Desconectado</p>
+   </div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'AniM5Stack/js/ws_anim5stack.js' %}"></script>
+<script src="{% static 'AniM5Stack/js/sd_manager.js' %}"></script>
+{% endblock %}

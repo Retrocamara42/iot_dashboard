@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "iot_dashboard"
+version = "1.0.0"
+
+description = "IoT dashboard"
+readme = "README.md"
+
+requires-python = ">=3.8"
+
+authors = [
+  {name = "Retrocamara42" }
+]
+
+dependencies = [
+    "Django",
+    "mysqlclient",
+    "djangorestframework",
+    "gunicorn",
+    "pytz",
+    "whitenoise",
+    "awsiotsdk",
+    "channels",
+    "channels-redis",
+    "uvicorn",
+    "websockets"
+]

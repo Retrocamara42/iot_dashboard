@@ -1,0 +1,23 @@
+{% extends "menu.html" %}
+{% load static %}
+{% block title %}Control Monitor de Ambiente{% endblock %}
+{% block content %}
+     <!-- Content -->
+    <div class="container-fluid">
+      <h1>Control monitor de ambiente</h1>
+      <div class="container-command">
+         <h2>Consultar dispositivo</h2>
+         <button id="btn_query">Consultar</button>
+      </div>
+      <div class="container-command">
+         <h2>Cambiar frecuencia de envío</h2>
+         <input type="number" id="freq_env" name="freq_env"/> minutos
+         <button id="btn_freq">Cambiar frecuencia</button>
+      </div>
+    </div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/notifications.js' %}"></script>
+<script src="{% static 'environment_monitor/js/ws_environment_monitor.js' %}"></script>
+<script src="{% static 'environment_monitor/js/control_environment_monitor.js' %}"></script>
+{% endblock %}

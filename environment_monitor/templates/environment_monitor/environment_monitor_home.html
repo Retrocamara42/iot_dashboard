@@ -1,0 +1,44 @@
+{% extends "menu.html" %}
+{% load static %}
+{% block title %}Dashboard Monitor de Ambiente{% endblock %}
+{% block content %}
+     <!-- Content -->
+    <div class="container-fluid">
+       <h1>Dashboard monitor de ambiente</h1>
+       <div class="dashboard">
+         <!-- Temperature -->
+         <h2 class="dashboard-title">Temperatura</h2>
+         <div class="dashboard-content">
+            <label>Mostrar <input id="puntos_temp" class="num_input" 
+               type="number" value="20" max="99" min="0"/> puntos</label>
+            <button class="small-button" onclick="updateDataPointsTemperature()">Actualizar</button>
+            <canvas id="temperature"></canvas>
+         </div>
+      </div>
+      <!-- Humidity -->
+      <div class="dashboard">
+         <h2 class="dashboard-title">Humedad</h2>
+         <div class="dashboard-content">
+            <label>Mostrar <input id="puntos_humid" class="num_input" 
+            type="number" value="20" max="99" min="0"/> puntos</label>
+            <button class="small-button" onclick="updateDataPointsHumidity()">Actualizar</button>
+            <canvas id="humidity"></canvas>
+         </div>
+      </div>
+      <!-- Pressurety -->
+      <div class="dashboard">
+         <h2 class="dashboard-title">Pressure</h2>
+         <div class="dashboard-content">
+            <label>Mostrar <input id="puntos_press" class="num_input" 
+            type="number" value="20" max="99" min="0"/> puntos</label>
+            <button class="small-button" onclick="updateDataPointsPressure()">Actualizar</button>
+            <canvas id="pressure"></canvas>
+         </div>
+      </div>
+   </div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/measurement_chart.js' %}"></script>
+<script src="{% static 'environment_monitor/js/ws_environment_monitor.js' %}"></script>
+<script src="{% static 'environment_monitor/js/dashboard_environment_monitor.js' %}"></script>
+{% endblock %}

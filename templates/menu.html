@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>{% block title %}No title{% endblock %}</title>
+   <!-- icon -->
+   <link rel="apple-touch-icon" sizes="180x180" href="{% static 'resources/favicon/apple-touch-icon.png' %}">
+   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'resources/favicon/favicon-32x32.png' %}">
+   <link rel="icon" type="image/png" sizes="16x16" href="{% static 'resources/favicon/favicon-16x16.png' %}">
+   <link rel="manifest" href="{% static 'resources/favicon/site.webmanifest' %}">
+   <link rel="mask-icon" href="{% static 'resources/favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
+   <meta name="msapplication-TileColor" content="#da532c">
+   <meta name="theme-color" content="#ffffff">
+   <!-- end icon -->
+   <!-- css -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+   <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+   <link rel="stylesheet" href="{% static 'css/notifications.css' %}">
+   <!-- end css -->
+   <!-- chart js -->
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+   <!-- end chart js -->
+</head>
+<body>
+   <div class="notify" id="notifyType"><span id="notification"></span></div>
+   <div id="viewport">
+     <!-- Sidebar -->
+     <div id="sidebar">
+       <header>
+         <a href="#"><i class="fas fa-bars"></i>Multisensor</a>
+       </header>
+       <ul class="nav">
+         <li class="nav-item nav-expandable nav-closed">
+            <div id="pagina_inicio">
+               <i class="fas fa-home"></i>Pagina de inicio</div>
+            <ul class="sub-nav">
+               <li class="nav-sub-item">
+                  <div id="inicio"
+                  onclick="location.href='/'"
+                  ><i class="fas fa-house-user"></i>Inicio</div>
+               </li>
+               <li class="nav-sub-item">
+                  <div id="devices"
+                  onclick="location.href='/devices'"
+                  ><i class="fas fa-laptop-house"></i>Dispositivos</div>
+               </li>
+            </ul>
+         </li>
+         <li class="nav-item nav-expandable nav-closed">
+            <div id="monitor_ambiente">
+               <i class="fas fa-thermometer-half"></i>Monitor de ambiente</div>
+            <ul class="sub-nav">
+               <li class="nav-sub-item">
+                  <div id="mon_amb_dashboard"
+                  onclick="location.href='/environment_monitor/dashboard/'"
+                  ><i class="fas fa-chart-line"></i>Dashboard</div>
+               </li>
+               <li class="nav-sub-item">
+                  <div id="mon_amb_control"
+                  onclick="location.href='/environment_monitor/control/'"
+                  ><i class="fas fa-satellite-dish"></i>Control</div>
+               </li>
+            </ul>
+         </li>
+         <li class="nav-item nav-expandable nav-closed">
+            <div id="anim5_stack">
+               <i class="fas fa-tablet-alt"></i>AniM5Stack</div>
+            <ul class="sub-nav">
+               <li class="nav-sub-item">
+                  <div id="anim5_sdmanager"
+                  onclick="location.href='/anim5_stack/sd_manager/'"
+                  ><i class="fas fa-sd-card"></i>SD Manager</div>
+               </li>
+            </ul>
+         </li>
+         <li class="nav-item nav-closed">
+            <div onclick="changeColor()"
+            ><i class="fas fa-paint-roller"></i>Cambiar color</div>
+         </li>
+       </ul>
+     </div>
+     <!-- Content -->
+     <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+   </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+{% block extra_js %}{% endblock %}
+<script src="{% static 'js/change_color.js' %}"></script>
+<script src="{% static 'js/menu.js' %}"></script>
+</html>

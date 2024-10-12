@@ -1,0 +1,25 @@
+{% extends "menu.html" %}
+{% load static %}
+{% block title %}Underground cuy{% endblock %}
+{% block content %}
+     <!-- Content -->
+    <div class="container-fluid">
+       <h1 style="color:#645664">Underground cuy</h1>
+       <row>
+          <div class="home-block" onclick="location.href='/environment_monitor/dashboard/'">
+             <p>Monitor de ambiente</p>
+          </div>
+          <div class="home-block" onclick="location.href='/anim5_stack/sd_manager/'">
+             <p>AniM5Stack</p>
+          </div>
+          <div class="home-block" onclick="location.href='/sound_recorder/home/'">
+             <p>Audio</p>
+          </div>
+          <div class="home-block" onclick="location.href='/devices/'">
+             <p>Dispositivos</p>
+          </div>
+       </row>
+    </div>
+{% endblock %}
+{% block extra_js %}
+{% endblock %}
