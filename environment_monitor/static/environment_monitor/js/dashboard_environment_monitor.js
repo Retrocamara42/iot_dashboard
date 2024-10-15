@@ -43,6 +43,7 @@ iotMsSocket.onopen = function(e){
 
 iotMsSocket.onmessage = function(e) {
    const data = JSON.parse(e.data);
+   console.log(data);
    try{
       message=JSON.parse(data.message)[0];
    }catch(error){
@@ -52,19 +53,16 @@ iotMsSocket.onmessage = function(e) {
    if(message.hasOwnProperty("topic")){
       // Temperature
       if(message.topic=="temperature"){
-         console.log(temperatureChart.data);
          // Remove first point
          temperatureChart.data.labels.pop();
          temperatureChart.data.datasets.forEach((dataset) => {
             dataset.data.pop();
          });
-         console.log(temperatureChart.data);
          // Add new point
          temperatureChart.data.labels.unshift(message['timestamp']);
          temperatureChart.data.datasets.forEach((dataset) => {
             dataset.data.unshift(message['temp']);
          });
-         console.log(temperatureChart.data);
          temperatureChart.update();
       }
       else if(message.topic=="humidity"){
@@ -109,6 +107,7 @@ iotMsSocket.onmessage = function(e) {
          if(typeof humidityChart!=='undefined'){
             humidityChart.destroy();
          }
+         console.log(data["message"]);
          humidityChart=drawChart(data["message"], '#humidity', 'humidity',
          'humidity', '#4db352', '#4db352', '%');
       }

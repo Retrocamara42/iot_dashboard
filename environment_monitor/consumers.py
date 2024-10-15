@@ -2,7 +2,7 @@
 import json, os
 from uuid import uuid4
 import pytz
-from datetime import datetime
+from datetime import datetime, timedelta
 # Channels import
 from channels.generic.websocket import WebsocketConsumer
 # Django imports
@@ -15,6 +15,7 @@ from .models import *
 from iot_dashboard.constants import *
 
 utc_5 = pytz.timezone('America/Lima')
+DATA_TIME_THRESHOLD = 60 # in days
 
 class EnvMonitorConsumer(WebsocketConsumer):
     ########### Subscription functions ###########
@@ -59,21 +60,31 @@ class EnvMonitorConsumer(WebsocketConsumer):
     get_temperature_data: Gets temperature data
     """
     def get_temperature_data(self, max_points):
-        dataset = Temperature.objects.all().order_by('-id')[:max_points]
+        # can't show data that is too far apart
+        latest_timestamp = Temperature.objects.latest('timestamp').timestamp
+        threshold_date = latest_timestamp - timedelta(days=DATA_TIME_THRESHOLD)
+        dataset = Temperature.objects.filter(timestamp__gte=threshold_date
+                    ).order_by('-id')[:max_points]
         return serializers.serialize('json', dataset)
 
     """
     get_humidity_data: Gets humidity data
     """
     def get_humidity_data(self, max_points):
-        dataset = Humidity.objects.all().order_by('-id')[:max_points]
+        latest_timestamp = Temperature.objects.latest('timestamp').timestamp
+        threshold_date = latest_timestamp - timedelta(days=DATA_TIME_THRESHOLD)
+        dataset = Humidity.objects.filter(timestamp__gte=threshold_date
+                    ).order_by('-id')[:max_points]
         return serializers.serialize('json', dataset)
 
     """
     get_pressure_data: Gets pressure data
     """
     def get_pressure_data(self, max_points):
-        dataset = Pressure.objects.all().order_by('-id')[:max_points]
+        latest_timestamp = Temperature.objects.latest('timestamp').timestamp
+        threshold_date = latest_timestamp - timedelta(days=DATA_TIME_THRESHOLD)
+        dataset = Pressure.objects.filter(timestamp__gte=threshold_date
+                    ).order_by('-id')[:max_points]
         return serializers.serialize('json', dataset)
     
 
