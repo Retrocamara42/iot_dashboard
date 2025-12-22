@@ -1,23 +1,15 @@
 # Django imports
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from django.core.exceptions import ValidationError
-from django.utils import timezone
 from django.http import JsonResponse
 from django.core import serializers
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import permissions, viewsets
 from django.views.decorators.csrf import csrf_exempt
 # Python imports
-import pytz
-import json
-import os
 from uuid import uuid4
-import time
 # Project imports
 from .models import *
-#from .serializers import TemperatureSerializer,HumiditySerializer
+from .serializers import ApiTemperatureSerializer#,HumiditySerializer
 
 # VIEWS
 ######################################################
@@ -39,6 +31,14 @@ class EnvironmentMonitorControlView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+# API VIEWS
+class TemperatureViewApi(viewsets.ModelViewSet):
+    """ API endpoint to get last temperature value
+    """
+    queryset = Temperature.objects.all().filter(timestamp=Temperature.objects.order_by("-timestamp").first().timestamp)
+    serializer_class = ApiTemperatureSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 # GET DATA FUNCTIONS

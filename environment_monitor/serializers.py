@@ -4,8 +4,13 @@ from .models import Temperature,Humidity,Pressure
 class TemperatureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Temperature
-        fields = ['temperature']
+        fields = ['temperature'] # used?
 
+
+class ApiTemperatureSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Temperature
+        fields = ['timestamp','temperature']
 
 
 class HumiditySerializer(serializers.ModelSerializer):

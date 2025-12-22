@@ -1,14 +1,21 @@
 """iot_dashboard URL Configuration
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 import home.views as home
 import environment_monitor.views as env_monitor
 import AniM5Stack.views as anim5_stack
+from rest_framework import routers
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+router = routers.DefaultRouter()
+router.register(r"temperature", env_monitor.TemperatureViewApi)
 
 urlpatterns = [
+    path("", include(router.urls)),
     path('admin/', admin.site.urls),
+    path("api/token/", TokenObtainPairView.as_view()),
+    path("api/token/refresh/", TokenRefreshView.as_view()),
     ### Home
     path('', home.HomeView.as_view(), name="home"),
     path('devices/', home.DeviceView.as_view(), name="devices"),
