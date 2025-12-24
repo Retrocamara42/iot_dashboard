@@ -5,6 +5,7 @@ from django.urls import include, path
 import home.views as home
 import environment_monitor.views as env_monitor
 import AniM5Stack.views as anim5_stack
+import mytasks.views as mytasks
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
@@ -12,7 +13,7 @@ router = routers.DefaultRouter()
 router.register(r"temperature", env_monitor.TemperatureViewApi)
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path("api/", include(router.urls)),
     path('admin/', admin.site.urls),
     path("api/token/", TokenObtainPairView.as_view()),
     path("api/token/refresh/", TokenRefreshView.as_view()),
@@ -27,4 +28,9 @@ urlpatterns = [
     path('anim5_stack/sd_manager/', anim5_stack.Anim5SDManagerView.as_view()),
     path('anim5_stack/load_sd_info/', anim5_stack.get_sd_info, name="get_sd_info"),
     path('anim5_stack/sd_file/', anim5_stack.post_sd_file, name="post_sd_file"),
+    ### MyTasks
+    path('mytasks/', mytasks.TasksView.as_view()),
+    path("mytasks/add_task/", mytasks.add_task),
+    path("mytasks/get_tasks/", mytasks.get_tasks),
+    path("mytasks/remove_task/", mytasks.remove_task),
 ]

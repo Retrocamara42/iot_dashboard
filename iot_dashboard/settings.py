@@ -29,11 +29,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # ALLOWED_HOSTS
-ALLOWED_HOSTS=["localhost","www.undergroundcuy.com", "undergroundcuy.com"]
+ALLOWED_HOSTS=["localhost","www.lamadriguera.space", "lamadriguera.space", "undergroundcuy.com", "www.undergroundcuy.com"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-#DEBUG = True
+#DEBUG = False
+DEBUG = True
 
 # Application definition
 
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'home',
     'environment_monitor',
     'AniM5Stack',
+    'mytasks',
 ]
 
 MIDDLEWARE = [

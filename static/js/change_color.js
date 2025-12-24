@@ -1,4 +1,4 @@
-menu_bg_colors=["#62476b","#58595B","#407A52","#044F67","#DF8600","#9D2933","#DB5A6B"]
+menu_bg_colors=["#58595B","#62476b","#407A52","#044F67","#DF8600","#9D2933","#DB5A6B"]
 
 function changeColor(){
    current_index_color=Cookies.get('index_color');

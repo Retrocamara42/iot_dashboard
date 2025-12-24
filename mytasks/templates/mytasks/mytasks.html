@@ -1,0 +1,23 @@
+{% extends "menu.html" %}
+{% load static %}
+{% block title %}Tareas{% endblock %}
+{% block content %}
+     <!-- Content -->
+    <div class="container-fluid">
+       <h1>Tareas</h1>
+       <table class="table table-striped table-active table-hover" style="width:50%">
+         <tbody id="my-tasks">
+         </tbody>
+       </table>
+       <div class="tasks">
+         <div class="tasks-content">
+            <label>Agregar tarea</label>
+            <input type="text" id="title" name="title" placeholder="Nueva tarea">
+            <button class="small-button" onclick="addTask()">Agregar</button>
+         </div>
+      </div>
+   </div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static './mytasks/js/mytasks.js' %}"></script>
+{% endblock %}
