@@ -43,7 +43,6 @@ iotMsSocket.onopen = function(e){
 
 iotMsSocket.onmessage = function(e) {
    const data = JSON.parse(e.data);
-   console.log(data);
    try{
       message=JSON.parse(data.message)[0];
    }catch(error){
