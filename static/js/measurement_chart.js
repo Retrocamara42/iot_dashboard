@@ -1,3 +1,34 @@
+const noDataPlugin = {
+    id: 'noData',
+    afterDraw(chart) {
+        const hasData = chart.data.datasets.some(dataset => dataset.data.length > 0);
+        if (!hasData) {
+            const { ctx, width, height } = chart;
+            ctx.save();
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.font = '24px Roboto';
+            ctx.fillText('No data', width / 2, height / 2);
+            ctx.restore();
+        }
+    }
+};
+
+const shadowLinePlugin = {
+    id: 'shadowLine',
+    beforeDatasetsDraw(chart) {
+        const { ctx } = chart;
+
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 4;
+    },
+    afterDatasetsDraw(chart) {
+        chart.ctx.restore();
+    }
+};
 
 function jsChartReformatMeasurementJson(json_data, measurement_label, label_name,
          border_color, background_color){
@@ -28,11 +59,18 @@ function drawChart(data, chart_id, measurement_label, label_name,
          border_color, background_color, units){
     var ctx = $(chart_id);
     var pad = 4;
-    var result=jsChartReformatMeasurementJson(data, measurement_label, 
-            label_name, border_color, background_color);
-    var data=result.new_format_data;
-    var min=result.min;
-    var max=result.max;
+    if(data.length === 0){
+      var data = [];
+      var min=0;
+      var max=0;
+    }
+    else{
+       var result=jsChartReformatMeasurementJson(data, measurement_label, 
+               label_name, border_color, background_color);
+       var data=result.new_format_data;
+       var min=result.min;
+       var max=result.max;
+    }
     var newChart = new Chart(ctx, {
        type: 'line',
        data: data,
@@ -77,9 +115,10 @@ function drawChart(data, chart_id, measurement_label, label_name,
             legend: {
                 display: true,
                 position:'bottom'
-            }
+            },
          }
-       }
+      },
+      plugins: [shadowLinePlugin, noDataPlugin]
     })
     return newChart;
 }

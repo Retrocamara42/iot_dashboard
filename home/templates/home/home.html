@@ -4,13 +4,10 @@
 {% block content %}
      <!-- Content -->
     <div class="container-fluid">
-       <h1 style="color:#645664">La Madriguera</h1>
+       <h1 class="dashboard-title">La Madriguera</h1>
        <row>
-          <div class="home-block" onclick="location.href='/environment_monitor/dashboard/'">
-             <p>Monitor de ambiente</p>
-          </div>
-          <div class="home-block" onclick="location.href='/anim5_stack/sd_manager/'">
-             <p>AniM5Stack</p>
+          <div class="home-block" onclick="location.href='/dashboard/'">
+             <p>Dashboard</p>
           </div>
           <div class="home-block" onclick="location.href='/devices/'">
              <p>Dispositivos</p>
@@ -19,4 +16,9 @@
     </div>
 {% endblock %}
 {% block extra_js %}
+<script>
+$("#start").addClass("active");
+$("#dashboard").removeClass("active");
+$("#devices").removeClass("active");
+</script>
 {% endblock %}

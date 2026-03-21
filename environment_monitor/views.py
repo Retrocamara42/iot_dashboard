@@ -4,12 +4,15 @@ from django.views.generic.base import TemplateView
 from django.http import JsonResponse
 from django.core import serializers
 from rest_framework import permissions, viewsets
+from rest_framework.response import Response
+from rest_framework import status
 from django.views.decorators.csrf import csrf_exempt
 # Python imports
 from uuid import uuid4
 # Project imports
 from .models import *
 from .serializers import ApiTemperatureSerializer#,HumiditySerializer
+
 
 # VIEWS
 ######################################################
@@ -36,7 +39,8 @@ class EnvironmentMonitorControlView(TemplateView):
 class TemperatureViewApi(viewsets.ModelViewSet):
     """ API endpoint to get last temperature value
     """
-    queryset = Temperature.objects.all().filter(timestamp=Temperature.objects.order_by("-timestamp").first().timestamp)
+    queryset = Temperature.objects.all().filter(timestamp=Temperature.objects.order_by(
+        "-timestamp").first().timestamp)
     serializer_class = ApiTemperatureSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -47,6 +51,12 @@ class TemperatureViewApi(viewsets.ModelViewSet):
 def get_device_data(request):
     """ get_device_data: Gets device data
     """
-    dataset = [Device.objects.get(device_name="iot_ms")]
-    json_response = serializers.serialize('json', dataset)
-    return JsonResponse(json_response, safe=False)
+    if request.method == "GET":
+        device_name = request.GET.get("device")
+        if device_name in VALID_ENV_DEVICES:
+            dataset = [Device.objects.get(device_name=device_name)]
+            json_response = serializers.serialize('json', dataset)
+            return JsonResponse(json_response, safe=False)
+        return Response('{{"error":{}}}'.format(
+            "Device is invalid"), 
+            status=status.HTTP_400_BAD_REQUEST)

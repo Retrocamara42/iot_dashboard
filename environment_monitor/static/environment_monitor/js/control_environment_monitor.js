@@ -1,3 +1,7 @@
+$('#title').text("Control " + '"' + device_name.replace("_"," ") + '"');
+$('#btn_ctrl').attr("onclick", 
+   "location.href='/environment_monitor/dashboard?device_name="+device_name+"'");
+
 iotMsSocket.onmessage = function(e) {
    const data = JSON.parse(e.data);
    console.log(data)

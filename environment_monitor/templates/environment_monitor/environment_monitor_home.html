@@ -4,8 +4,12 @@
 {% block content %}
      <!-- Content -->
     <div class="container-fluid">
-       <h1>Dashboard monitor de ambiente</h1>
-       <div class="dashboard">
+       <h1 id="title" class="dashboard-title">Dashboard monitor de ambiente</h1>
+       <div class="container-command">
+         <button id="btn_ctrl" style="background-color:chocolate;"
+         >To controls...</button>
+      </div>
+       <div class="dashboard" id="dashboard_temp">
          <!-- Temperature -->
          <h2 class="dashboard-title">Temperatura</h2>
          <div class="dashboard-content">
@@ -16,7 +20,7 @@
          </div>
       </div>
       <!-- Humidity -->
-      <div class="dashboard">
+      <div class="dashboard" id="dashboard_humid">
          <h2 class="dashboard-title">Humedad</h2>
          <div class="dashboard-content">
             <label>Mostrar <input id="puntos_humid" class="num_input" 
@@ -25,8 +29,8 @@
             <canvas id="humidity"></canvas>
          </div>
       </div>
-      <!-- Pressurety -->
-      <div class="dashboard">
+      <!-- Pressure -->
+      <div class="dashboard" id="dashboard_press">
          <h2 class="dashboard-title">Pressure</h2>
          <div class="dashboard-content">
             <label>Mostrar <input id="puntos_press" class="num_input" 

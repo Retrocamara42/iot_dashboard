@@ -29,60 +29,25 @@
    <div class="notify" id="notifyType"><span id="notification"></span></div>
    <div id="viewport">
      <!-- Sidebar -->
-     <div id="sidebar">
-       <header>
-         <a href="#"><i class="fas fa-bars"></i>Multisensor</a>
-       </header>
-       <ul class="nav">
-         <li class="nav-item nav-expandable nav-closed">
-            <div id="pagina_inicio">
-               <i class="fas fa-home"></i>Pagina de inicio</div>
-            <ul class="sub-nav">
-               <li class="nav-sub-item">
-                  <div id="inicio"
-                  onclick="location.href='/'"
-                  ><i class="fas fa-house-user"></i>Inicio</div>
-               </li>
-               <li class="nav-sub-item">
-                  <div id="devices"
-                  onclick="location.href='/devices'"
-                  ><i class="fas fa-laptop-house"></i>Dispositivos</div>
-               </li>
-            </ul>
+   <aside id="sidebar" class="sidebar">
+    <h2 class="logo">🐹 La Madriguera</h2>
+    <nav>
+      <ul>
+        <li id="start" class="active"><div
+            onclick="location.href='/'"
+            ><i class="fas fa-house-user"></i>Página de inicio</div>
          </li>
-         <li class="nav-item nav-expandable nav-closed">
-            <div id="monitor_ambiente">
-               <i class="fas fa-thermometer-half"></i>Monitor de ambiente</div>
-            <ul class="sub-nav">
-               <li class="nav-sub-item">
-                  <div id="mon_amb_dashboard"
-                  onclick="location.href='/environment_monitor/dashboard/'"
-                  ><i class="fas fa-chart-line"></i>Dashboard</div>
-               </li>
-               <li class="nav-sub-item">
-                  <div id="mon_amb_control"
-                  onclick="location.href='/environment_monitor/control/'"
-                  ><i class="fas fa-satellite-dish"></i>Control</div>
-               </li>
-            </ul>
+        <li id="dashboard"><div
+            onclick="location.href='/dashboard'"><i class="fas fa-chart-line"></i>Dashboard</div>
+        </li>
+        <li id="devices"><div
+            onclick="location.href='/devices'"
+            ><i class="fas fa-laptop-house"></i>Dispositivos</div>
          </li>
-         <li class="nav-item nav-expandable nav-closed">
-            <div id="anim5_stack">
-               <i class="fas fa-tablet-alt"></i>AniM5Stack</div>
-            <ul class="sub-nav">
-               <li class="nav-sub-item">
-                  <div id="anim5_sdmanager"
-                  onclick="location.href='/anim5_stack/sd_manager/'"
-                  ><i class="fas fa-sd-card"></i>SD Manager</div>
-               </li>
-            </ul>
-         </li>
-         <li class="nav-item nav-closed">
-            <div onclick="changeColor()"
-            ><i class="fas fa-paint-roller"></i>Cambiar color</div>
-         </li>
-       </ul>
-     </div>
+      </ul>
+    </nav>
+  </aside>
+
      <!-- Content -->
      <div id="content">
         {% block content %}{% endblock %}

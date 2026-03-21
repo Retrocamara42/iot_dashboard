@@ -1,3 +1,7 @@
+$('#title').text("Dashboard " + '"' + device_name.replace("_"," ") + '"');
+$('#btn_ctrl').attr("onclick", 
+   "location.href='/environment_monitor/control?device_name="+device_name+"'");
+
 /****** Dashboard functions *****/
 function updateDataPointsTemperature(){
    puntos_temp=$('#puntos_temp').val();
@@ -5,6 +9,7 @@ function updateDataPointsTemperature(){
        'message': {
            'command':'send_initial_data_temp',
            'max_points':puntos_temp,
+           'device_name':device_name
         }
    }));
 }
@@ -15,6 +20,7 @@ function updateDataPointsHumidity(){
        'message': {
            'command':'send_initial_data_humid',
            'max_points':puntos_humid,
+           'device_name':device_name
         }
    }));
 }
@@ -25,6 +31,7 @@ function updateDataPointsPressure(){
        'message': {
            'command':'send_initial_data_press',
            'max_points':puntos_press,
+           'device_name':device_name
         }
    }));
 }
@@ -48,8 +55,26 @@ iotMsSocket.onmessage = function(e) {
    }catch(error){
       message=data.message[0];
    }
+   // No data
+   if(message.hasOwnProperty("no_data")){
+      // Temperature
+      if(message.model=="environment_monitor.temperature"){
+         temperatureChart=drawChart([], '#temperature', 'temperature',
+         'temperature', '#1c66c9', '#1c66c9', '°C');
+      }
+      // Humidity
+      else if(message.model=="environment_monitor.humidity"){
+         humidityChart=drawChart([], '#humidity', 'humidity',
+         'humidity', '#4db352', '#4db352', '%');
+      }
+      // Pressure
+      else if(message.model=="environment_monitor.pressure"){
+         pressureChart=drawChart([], '#pressure', 'pressure',
+         'pressure', '#ffb347', '#ffb347', 'atm');
+      }
+   }
    // New data
-   if(message.hasOwnProperty("topic")){
+   else if(message.hasOwnProperty("topic")){
       // Temperature
       if(message.topic=="temperature"){
          // Remove first point
@@ -106,7 +131,6 @@ iotMsSocket.onmessage = function(e) {
          if(typeof humidityChart!=='undefined'){
             humidityChart.destroy();
          }
-         console.log(data["message"]);
          humidityChart=drawChart(data["message"], '#humidity', 'humidity',
          'humidity', '#4db352', '#4db352', '%');
       }

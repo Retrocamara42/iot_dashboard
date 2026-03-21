@@ -21,9 +21,11 @@ urlpatterns = [
     path('', home.HomeView.as_view(), name="home"),
     path('devices/', home.DeviceView.as_view(), name="devices"),
     path('home/get_device_data/', env_monitor.get_device_data),
+    path('dashboard/', home.DashboardView.as_view(), name="dashboard"),
+    path('dashboard/get_dashboard_data/', home.get_dashboard_data),
     #### Environment monitor
-    path('environment_monitor/dashboard/', env_monitor.EnvironmentMonitorDashboardView.as_view(), name="env_monitor"),
-    path('environment_monitor/control/', env_monitor.EnvironmentMonitorControlView.as_view()),
+    path('environment_monitor/dashboard', env_monitor.EnvironmentMonitorDashboardView.as_view(), name="env_monitor"),
+    path('environment_monitor/control', env_monitor.EnvironmentMonitorControlView.as_view()),
     ### AniM5Stack
     path('anim5_stack/sd_manager/', anim5_stack.Anim5SDManagerView.as_view()),
     path('anim5_stack/load_sd_info/', anim5_stack.get_sd_info, name="get_sd_info"),

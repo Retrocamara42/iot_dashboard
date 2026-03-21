@@ -4,31 +4,31 @@
 {% block content %}
      <!-- Content -->
     <div class="container-fluid">
-       <h1 style="color:#645664">Dispositivos</h1>
+       <h1 class="dashboard-title">Dispositivos</h1>
        <row>
-          <div class="device-block">
-             <p>Monitor de temperatura y humedad</p>
+          <div onclick="location.href='/environment_monitor/dashboard?device_name=solar_esp'" 
+          class="device-block">
+             <p>Solar-ESP</p>
              <img src="{% static 'home/resources/mon_amb_v2.jpg' %}" 
-               alt="Monitor de temperatura y humedad"
+               alt="Solar-ESP"
                class="device-img"></img>
-             <p style="font-size:16px">Vista frontal</p>
+             <p style="font-size:16px">Temperature and Humitdity</p>
           </div>
-          <div class="device-block">
-             <p>Monitor de temperatura y humedad</p>
-             <img src="{% static 'home/resources/mon_amb_back_v2.jpg' %}" 
-               alt="Monitor de temperatura y humedad"
+          <div onclick="location.href='/environment_monitor/dashboard?device_name=atom5_prot'" 
+          class="device-block">
+             <p>AtomM5-prototype</p>
+             <img src="{% static 'home/resources/atomm5_prototype.jpg' %}" 
+               alt="AtomM5-prototype"
                class="device-img"></img>
-             <p style="font-size:16px">Vista interior</p>
-          </div>
-          <div class="device-block">
-             <p>Anim5Stack</p>
-             <img src="{% static 'home/resources/anim5stack.jpg' %}" 
-               alt="Anim5Stack v1"
-               class="device-img"></img>
-             <p style="font-size:12px">Pixel image made by Eclipse89(https://www.pixilart.com/eclipse89)</p>
+             <p style="font-size:16px">Temperature, Humitdity and Pressure</p>
           </div>
        </row>
     </div>
 {% endblock %}
 {% block extra_js %}
+<script>
+$("#devices").addClass("active");
+$("#dashboard").removeClass("active");
+$("#start").removeClass("active");
+</script>
 {% endblock %}

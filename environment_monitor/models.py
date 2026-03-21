@@ -1,5 +1,8 @@
 from django.db import models
 from django.utils import timezone
+
+VALID_ENV_DEVICES = ["solar_esp", "atom5_prot"]
+
 # Create your models here.
 class Temperature(models.Model):
     """

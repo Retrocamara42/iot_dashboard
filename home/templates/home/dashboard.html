@@ -1,0 +1,53 @@
+{% extends "menu.html" %}
+{% load static %}
+{% block title %}La Madriguera{% endblock %}
+{% block content %}
+     <!-- Content -->
+   <div class="container">
+      <main id="esp_solar" class="main">
+         <header class="header">
+            <h1>Device: Solar ESP</h1>
+         </header>
+
+         <section class="stats">
+            <div id="temp" class="card">
+               <h3>Temperature</h3>
+               <p class="value">0°C</p>
+            </div>
+
+            <div id="humid" class="card">
+               <h3>Humidity</h3>
+               <p class="value">0%</p>
+            </div>
+         </section>
+      </main>
+   </div>
+
+   <div class="container">
+      <main id="atomm5_prototype" class="main">
+         <header class="header">
+            <h1>Device: AtomM5 Prototype</h1>
+         </header>
+
+         <section class="stats">
+            <div id="temp" class="card">
+               <h3>Temperature</h3>
+               <p class="value">0°C</p>
+            </div>
+
+            <div id="humid" class="card">
+               <h3>Humidity</h3>
+               <p class="value">0%</p>
+            </div>
+
+            <div id="press" class="card">
+               <h3>Pressure</h3>
+               <p class="value">0 atm</p>
+            </div>
+         </section>
+      </main>
+   </div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'home/js/dashboard.js' %}"></script>
+{% endblock %}

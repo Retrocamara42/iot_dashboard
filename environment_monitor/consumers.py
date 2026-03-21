@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from channels.generic.websocket import WebsocketConsumer
 # Django imports
 from django.core import serializers
+from django.http import JsonResponse
 # Aws imports
 from awscrt import io, mqtt, auth, http
 from awsiot import mqtt_connection_builder
@@ -17,12 +18,13 @@ from iot_dashboard.constants import *
 utc_5 = pytz.timezone('America/Lima')
 DATA_TIME_THRESHOLD = 60 # in days
 
+
 class EnvMonitorConsumer(WebsocketConsumer):
     ########### Subscription functions ###########
     def on_temp_received(self, topic, payload, **kwargs):
         print("Received message from topic '{}': {}".format(topic, payload))
         message=json.loads(payload.decode('ascii'))
-        if(message["dev_name"]==self.device_name):
+        if(message["device_name"]==self.device_name):
             self.send(text_data=json.dumps({
                 'message': [{
                     'topic':topic,
@@ -34,7 +36,7 @@ class EnvMonitorConsumer(WebsocketConsumer):
     def on_humid_received(self, topic, payload, **kwargs):
         print("Received message from topic '{}': {}".format(topic, payload))
         message=json.loads(payload.decode('ascii'))
-        if(message["dev_name"]==self.device_name):
+        if(message["device_name"]==self.device_name):
             self.send(text_data=json.dumps({
                 'message': [{
                     'topic':topic,
@@ -46,7 +48,7 @@ class EnvMonitorConsumer(WebsocketConsumer):
     def on_pressure_received(self, topic, payload, **kwargs):
         print("Received message from topic '{}': {}".format(topic, payload))
         message=json.loads(payload.decode('ascii'))
-        if(message["dev_name"]==self.device_name):
+        if(message["device_name"]==self.device_name):
             self.send(text_data=json.dumps({
                 'message': [{
                     'topic':topic,
@@ -59,38 +61,52 @@ class EnvMonitorConsumer(WebsocketConsumer):
     """
     get_temperature_data: Gets temperature data
     """
-    def get_temperature_data(self, max_points):
+    def get_temperature_data(self, max_points, device_name):
         # can't show data that is too far apart
         latest_timestamp = Temperature.objects.latest('timestamp').timestamp
         threshold_date = latest_timestamp - timedelta(days=DATA_TIME_THRESHOLD)
-        dataset = Temperature.objects.filter(timestamp__gte=threshold_date
-                    ).order_by('-id')[:max_points]
-        return serializers.serialize('json', dataset)
+        dataset = Temperature.objects.filter(device_name = device_name, 
+            timestamp__gte=threshold_date).order_by('-id')[:max_points]
+        if dataset.exists():
+            return serializers.serialize('json', dataset)
+        else:
+            response = [{"model":"environment_monitor.pressure","no_data":1}]
+            return response
 
     """
     get_humidity_data: Gets humidity data
     """
-    def get_humidity_data(self, max_points):
+    def get_humidity_data(self, max_points, device_name):
         latest_timestamp = Temperature.objects.latest('timestamp').timestamp
         threshold_date = latest_timestamp - timedelta(days=DATA_TIME_THRESHOLD)
-        dataset = Humidity.objects.filter(timestamp__gte=threshold_date
-                    ).order_by('-id')[:max_points]
-        return serializers.serialize('json', dataset)
+        dataset = Humidity.objects.filter(device_name = device_name, 
+            timestamp__gte=threshold_date).order_by('-id')[:max_points]
+        if dataset.exists():
+            return serializers.serialize('json', dataset)
+        else:
+            response = [{"model":"environment_monitor.pressure","no_data":1}]
+            return response
 
     """
     get_pressure_data: Gets pressure data
     """
-    def get_pressure_data(self, max_points):
+    def get_pressure_data(self, max_points, device_name):
         latest_timestamp = Temperature.objects.latest('timestamp').timestamp
         threshold_date = latest_timestamp - timedelta(days=DATA_TIME_THRESHOLD)
-        dataset = Pressure.objects.filter(timestamp__gte=threshold_date
-                    ).order_by('-id')[:max_points]
-        return serializers.serialize('json', dataset)
+        dataset = Pressure.objects.filter(device_name = device_name, 
+            timestamp__gte=threshold_date).order_by('-id')[:max_points]
+        if dataset.exists():
+            return serializers.serialize('json', dataset)
+        else:
+            response = [{"model":"environment_monitor.pressure","no_data":1}]
+            return response
     
 
     ########### Consumer functions ###########
     def connect(self):
         self.device_name = self.scope['url_route']['kwargs']['device_name']
+        if self.device_name not in VALID_ENV_DEVICES:
+            return
         self.accept()
         # Creating event loop
         self.event_loop_group = io.EventLoopGroup(1)
@@ -148,7 +164,7 @@ class EnvMonitorConsumer(WebsocketConsumer):
                 max_points=20
                 print("Error while converting max_points to int: "+str(e))
             # Sending all events from database
-            temp_data=self.get_temperature_data(max_points)
+            temp_data=self.get_temperature_data(max_points, message['device_name'])
             self.send(text_data=json.dumps({
                 'message': temp_data
             }))
@@ -161,7 +177,7 @@ class EnvMonitorConsumer(WebsocketConsumer):
                 max_points=20
                 print("Error while converting max_points to int: "+str(e))
             # Sending all events from database
-            humid_data=self.get_humidity_data(max_points)
+            humid_data=self.get_humidity_data(max_points, message['device_name'])
             self.send(text_data=json.dumps({
                 'message': humid_data
             }))
@@ -174,7 +190,7 @@ class EnvMonitorConsumer(WebsocketConsumer):
                 max_points=20
                 print("Error while converting max_points to int: "+str(e))
             # Sending all events from database
-            press_data=self.get_pressure_data(max_points)
+            press_data=self.get_pressure_data(max_points, message['device_name'])
             self.send(text_data=json.dumps({
                 'message': press_data
             }))
